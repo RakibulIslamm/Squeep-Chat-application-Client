@@ -3,10 +3,13 @@ import logo from '../images/msgIcon.png'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
 import useFirebase from '../Hooks/useFirebase';
+import ButtonLoader from '../utils/Loader/ButtonLoader';
+import { useSelector } from 'react-redux';
 
 const Register = () => {
     const [showPass, setShowPass] = useState(false);
     const [error, setError] = useState('');
+    const authError = useSelector(state => state.auth.authRegError)
 
     const { createAccount, regLoading } = useFirebase();
 
@@ -56,8 +59,8 @@ const Register = () => {
                 </div>
 
                 {/* Submit button */}
-                <button disabled={regLoading === true} className='px-4 h-11 bg-yellow text-lightBlack flex justify-center items-center' type="submit">{'Login'}</button>
-                {<p className='text-xs font-light text-red-500'>{'Error'}</p>}
+                <button disabled={regLoading === true} className='px-4 h-11 bg-yellow text-lightBlack flex justify-center items-center' type="submit">{regLoading ? <ButtonLoader /> : 'Register'}</button>
+                {authError && <p className='text-xs font-light text-red-500'>{authError}</p>}
                 <div className='flex items-center gap-3'>
                     <p className='text-sm'>Already have an account?</p>
                     <Link to={'/login'} className='text-white text-sm font-extralight relative'>Login<span className='inline-block w-full h-[1px] bg-white absolute left-0 bottom-0'></span></Link>

@@ -4,10 +4,14 @@ import logo from '../images/msgIcon.png'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import ButtonLoader from '../utils/Loader/ButtonLoader';
 import useFirebase from '../Hooks/useFirebase';
+import { useSelector } from 'react-redux';
 
 const Login = () => {
     const [showPass, setShowPass] = useState(false);
     const { login, loginLoading } = useFirebase();
+    const error = useSelector(state => state.auth.authLogError);
+    const { user } = useSelector(state => state.auth);
+    console.log(user)
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -29,7 +33,7 @@ const Login = () => {
                     {showPass && <AiOutlineEye className='absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-white' onClick={() => setShowPass(!showPass)} />}
                 </div>
                 <button disabled={loginLoading === true} className='px-4 h-11 bg-yellow text-lightBlack flex justify-center items-center' type="submit">{loginLoading ? <ButtonLoader /> : 'Login'}</button>
-                {<p className='text-xs font-light text-red-500'>error</p>}
+                {error && <p className='text-xs font-light text-red-500'>{error}</p>}
                 {/* <ButtonLoader /> */}
                 <div className='flex items-center gap-3'>
                     <p className='text-sm'>Don't have an account?</p>
