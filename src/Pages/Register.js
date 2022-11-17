@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import logo from '../images/msgIcon.png'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
+import useFirebase from '../Hooks/useFirebase';
 
 const Register = () => {
     const [showPass, setShowPass] = useState(false);
     const [error, setError] = useState('');
 
+    const { createAccount, regLoading } = useFirebase();
 
     const handleCreateAccount = (e) => {
         setError('');
@@ -21,7 +23,7 @@ const Register = () => {
             setError("Password didn't match")
             return
         }
-
+        createAccount(fullName, email, password);
 
     }
 
@@ -54,11 +56,11 @@ const Register = () => {
                 </div>
 
                 {/* Submit button */}
-                <button className='px-4 h-11 bg-yellow text-lightBlack flex justify-center items-center' type="submit">{'Login'}</button>
+                <button disabled={regLoading === true} className='px-4 h-11 bg-yellow text-lightBlack flex justify-center items-center' type="submit">{'Login'}</button>
                 {<p className='text-xs font-light text-red-500'>{'Error'}</p>}
                 <div className='flex items-center gap-3'>
                     <p className='text-sm'>Already have an account?</p>
-                    <Link to={'/'} className='text-white text-sm font-extralight relative'>Login<span className='inline-block w-full h-[1px] bg-white absolute left-0 bottom-0'></span></Link>
+                    <Link to={'/login'} className='text-white text-sm font-extralight relative'>Login<span className='inline-block w-full h-[1px] bg-white absolute left-0 bottom-0'></span></Link>
                 </div>
             </form>
         </div>
