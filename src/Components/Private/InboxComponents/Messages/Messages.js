@@ -14,6 +14,9 @@ const Messages = () => {
                     <Message email={'Me'} message={'Hello'} />
                     <Message email={'Sender'} message={'Hello'} />
                     <Message email={'Sender'} message={'Hello'} />
+
+                    {/*  */}
+
                 </div>
                 {<div className='hidden'>
                     <div className='px-6 py-4 flex items-center gap-3'>
