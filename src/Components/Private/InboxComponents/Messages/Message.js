@@ -16,7 +16,7 @@ const Message = ({ email, message }) => {
                 </div>
                 <div className={`flex items-center gap-2 ${email === 'Me' ? 'flex-row-reverse' : ''}`}>
                     <img className={`w-8 h-8 rounded-full`} src="https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg" alt="" />
-                    <span className='text-xs text-gray-400'>{'Me' !== email && 'Sender'}</span>
+                    <span className='text-xs text-gray-400'>{'Me' !== email && 'Participant'}</span>
                 </div>
             </div>
         </div>
