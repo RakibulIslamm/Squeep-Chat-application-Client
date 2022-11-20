@@ -1,12 +1,15 @@
 import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, getAuth, signOut } from "firebase/auth";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { authLogError, authRegError } from "../features/auth/authSlice";
 import { authApp } from '../Firebase/firebaseInit'
 
 
 const useFirebase = () => {
     const [loginLoading, setLoginLoading] = useState(false);
     const [regLoading, setRegLoading] = useState(false);
-    const auth = getAuth(authApp)
+    const auth = getAuth(authApp);
+    const dispatch = useDispatch();
 
     // Create account
     const createAccount = async (name, email, password) => {
@@ -29,7 +32,7 @@ const useFirebase = () => {
             }
         }
         catch (err) {
-
+            dispatch(authRegError(err.message));
         }
         finally {
             setRegLoading(false);
@@ -46,7 +49,7 @@ const useFirebase = () => {
             console.log(currentUser);
         }
         catch (err) {
-
+            dispatch(authLogError(err.message));
         }
         finally {
             setLoginLoading(false);

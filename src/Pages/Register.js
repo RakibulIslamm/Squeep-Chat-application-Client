@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../images/msgIcon.png'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
 import useFirebase from '../Hooks/useFirebase';
 import ButtonLoader from '../utils/Loader/ButtonLoader';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { authRegError } from '../features/auth/authSlice';
 
 const Register = () => {
     const [showPass, setShowPass] = useState(false);
@@ -12,6 +13,12 @@ const Register = () => {
     const authError = useSelector(state => state.auth.authRegError)
 
     const { createAccount, regLoading } = useFirebase();
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(authRegError(null));
+        setError('');
+    }, [dispatch]);
 
     const handleCreateAccount = (e) => {
         setError('');

@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../images/msgIcon.png'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import ButtonLoader from '../utils/Loader/ButtonLoader';
 import useFirebase from '../Hooks/useFirebase';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { authLogError } from '../features/auth/authSlice';
 
 const Login = () => {
     const [showPass, setShowPass] = useState(false);
     const { login, loginLoading } = useFirebase();
     const error = useSelector(state => state.auth.authLogError);
     const { user } = useSelector(state => state.auth);
-    console.log(user)
+    const dispatch = useDispatch();
+    console.log(error);
+
+
+
+    useEffect(() => {
+        dispatch(authLogError(null))
+    }, [dispatch]);
 
     const handleLogin = (e) => {
         e.preventDefault();
