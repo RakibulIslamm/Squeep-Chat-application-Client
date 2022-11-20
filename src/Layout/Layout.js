@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import Messages from "../Components/Private/InboxComponents/Messages/Messages";
 import Inbox from "../Pages/Inbox";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
@@ -20,7 +21,7 @@ function Layout() {
             {/* Private Layout */}
             <Route path="/inbox" element={<PrivateRoute><PrivateLayout /></PrivateRoute>}>
                 <Route path="/inbox" element={<Inbox />}>
-
+                    <Route path='messages/:id' element={<Messages />} />
                 </Route>
             </Route>
 
