@@ -27,7 +27,7 @@ const SideBar = () => {
             </div>
 
             <div className='w-full'>
-                <CustomLink title='Home' to={'/my-profile'}>
+                <CustomLink title='Home' to={'/profile'}>
                     <AiOutlineHome className='text-2xl' />
                     <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Home</p>
                 </CustomLink>
@@ -39,14 +39,14 @@ const SideBar = () => {
                     <IoPeopleOutline className='text-2xl' />
                     <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Friends</p>
                 </CustomLink>
-                <CustomLink title='Favorites' to={'/my-profile/favorites'}>
+                <CustomLink title='Favorites' to={'/favorites'}>
                     <BiStar className='text-2xl' />
                     <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Favorites</p>
                 </CustomLink>
             </div>
 
             <div className='w-full'>
-                <CustomLink title='Settings' to={'/my-profile/settings'}>
+                <CustomLink title='Settings' to={'/settings'}>
                     <IoSettingsOutline className='text-2xl' />
                     <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Settings</p>
                 </CustomLink>
