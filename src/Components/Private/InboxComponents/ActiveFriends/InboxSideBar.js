@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ParticipantProfile from './ParticipantProfile/ParticipantProfile';
 import SingleFriend from './SingleFriend';
-import { MdArrowBack, MdArrowForward } from 'react-icons/md'
+import { MdArrowBack } from 'react-icons/md'
 import { handleConversationInfo } from '../../../../features/toggle/toggleSlice';
 
 const InboxSideBar = () => {
