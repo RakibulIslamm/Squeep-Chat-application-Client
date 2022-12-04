@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ParticipantProfile from './ParticipantProfile/ParticipantProfile';
 import SingleFriend from './SingleFriend';
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
+import { MdArrowBack, MdArrowForward } from 'react-icons/md'
+import { handleConversationInfo } from '../../../../features/toggle/toggleSlice';
 
-const ActiveFriends = () => {
+const InboxSideBar = () => {
     const collapse = useSelector(state => state.toggle.sidebarToggle);
-    const [toggle, setToggle] = useState(false);
+    const conversationInfo = useSelector(state => state.toggle.conversationInfo);
+    const dispatch = useDispatch();
     return (
         <div className={`${collapse ? 'w-0' : 'w-[320px]'} h-full bg-secondary flex flex-col justify-start transition-all ease-in-out duration-300`}>
             <div className='px-4 h-[70px] w-full flex items-center gap-4 border-b border-primary'>
-                <button onClick={() => setToggle(!toggle)} className={`flex items-center gap-1 text-base text-white hover:text-yellow ${toggle && "hidden"} transition-all ease-in-out`}><MdKeyboardArrowLeft /> Back To Info</button>
-                <button onClick={() => setToggle(!toggle)} className={`flex items-center gap-1 text-base text-white hover:text-yellow ${!toggle && "hidden"} transition-all ease-in-out`}>Active Friends<MdKeyboardArrowRight /></button>
+                <button onClick={() => dispatch(handleConversationInfo(false))} className={`flex items-center gap-1 text-base text-white hover:text-yellow ${!conversationInfo && "hidden"} transition-all ease-in-out`}><MdArrowBack />Back</button>
+                <h3 className={`flex items-center gap-1 text-lg font-semibold text-white ${conversationInfo && "hidden"} transition-all ease-in-out`}>Active friends</h3>
             </div>
             <div>
-                {!toggle ?
+                {!conversationInfo ?
                     <div>
-                        <h2 className='p-4 text-lg font-semibold text-white'>Active Users</h2>
                         <SingleFriend />
                         <SingleFriend />
                         <SingleFriend />
@@ -30,4 +31,4 @@ const ActiveFriends = () => {
     );
 };
 
-export default ActiveFriends;
+export default InboxSideBar;
