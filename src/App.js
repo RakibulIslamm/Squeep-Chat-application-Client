@@ -1,10 +1,9 @@
 import useListenAuth from "./Hooks/useListenAuth";
 import Layout from "./Layout/Layout";
 import PageLoader from "./utils/Loader/PageLoader";
-import { io } from 'socket.io-client'
+import { socket } from "./utils/Socket.io/socket";
 
 function App() {
-  const socket = io("http://localhost:5000");
   socket.on("connect", () => {
     console.log(socket.id);
   });
