@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useGetAllUsersQuery } from '../../../features/user/userApi';
+import { useGetAllUsersQuery } from '../../../../features/user/userApi';
 import SingleFriend from './SingleFriend';
 
 const FindFriend = () => {

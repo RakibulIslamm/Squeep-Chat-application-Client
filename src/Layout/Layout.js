@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import FindFriend from "../Components/Private/FindFriend/FindFriend";
+import FindFriend from "../Components/Private/ProfileComponents/FindFriend/FindFriend";
 import Messages from "../Components/Private/InboxComponents/Messages/Messages";
 import Inbox from "../Pages/Inbox";
 import Login from "../Pages/Login";
@@ -9,6 +9,7 @@ import PrivateRoute from "../utils/Routes/PrivateRoute";
 import PublicRoute from "../utils/Routes/PublicRoute";
 import PrivateLayout from "./Private/PrivateLayout";
 import PublicLayout from "./Public/PublicLayout";
+import EmptyBody from "../Components/Private/InboxComponents/EmptyBody/EmptyBody";
 
 function Layout() {
 
@@ -23,6 +24,7 @@ function Layout() {
             {/* Private Layout */}
             <Route path="/inbox" element={<PrivateRoute><PrivateLayout /></PrivateRoute>}>
                 <Route path="/inbox" element={<Inbox />}>
+                    <Route index element={<EmptyBody />} />
                     <Route path='messages/:id' element={<Messages />} />
                 </Route>
             </Route>
