@@ -27,7 +27,7 @@ const SideBar = () => {
             </div>
 
             <div className='w-full'>
-                <CustomLink title='Home' to={'/profile'}>
+                <CustomLink title='Home' to={'/my-profile'}>
                     <AiOutlineHome className='text-2xl' />
                     <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Home</p>
                 </CustomLink>

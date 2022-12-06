@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Messages from "../Components/Private/InboxComponents/Messages/Messages";
 import Inbox from "../Pages/Inbox";
 import Login from "../Pages/Login";
+import Profile from "../Pages/Profile";
 import Register from "../Pages/Register";
 import PrivateRoute from "../utils/Routes/PrivateRoute";
 import PublicRoute from "../utils/Routes/PublicRoute";
@@ -22,6 +23,12 @@ function Layout() {
             <Route path="/inbox" element={<PrivateRoute><PrivateLayout /></PrivateRoute>}>
                 <Route path="/inbox" element={<Inbox />}>
                     <Route path='messages/:id' element={<Messages />} />
+                </Route>
+            </Route>
+
+            <Route path="/my-profile" element={<PrivateRoute><PrivateLayout /></PrivateRoute>}>
+                <Route path="/my-profile" element={<Profile />}>
+
                 </Route>
             </Route>
 
