@@ -6,7 +6,6 @@ import SingleFriend from './SingleFriend';
 const FindFriend = () => {
     const { email } = useSelector(state => state.auth.user)
     const { data: users, isLoading, isError, isSuccess } = useGetAllUsersQuery(email);
-    console.log(users);
 
     let content = null
     if (isLoading) {
