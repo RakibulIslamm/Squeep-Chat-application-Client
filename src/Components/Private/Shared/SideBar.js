@@ -15,7 +15,7 @@ const SideBar = () => {
     const navigate = useNavigate();
     const { logOut } = useFirebase();
 
-    const handleLogOut = (navigate) => {
+    const handleLogOut = () => {
         logOut(navigate);
     }
 
@@ -50,7 +50,7 @@ const SideBar = () => {
                     <IoSettingsOutline className='text-2xl' />
                     <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Settings</p>
                 </CustomLink>
-                <button onClick={() => handleLogOut(navigate)} className='w-full py-4 pl-4 hover:bg-secondary text-white flex items-center gap-3 transition-all ease-in-out relative font-light' title='Logout' >
+                <button onClick={handleLogOut} className='w-full py-4 pl-4 hover:bg-secondary text-white flex items-center gap-3 transition-all ease-in-out relative font-light' title='Logout' >
                     <IoExitOutline className='text-2xl' />
                     <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Logout</p>
                 </button>

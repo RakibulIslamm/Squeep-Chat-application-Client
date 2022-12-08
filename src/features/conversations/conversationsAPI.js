@@ -10,8 +10,15 @@ export const conversationsAPI = apiSlice.injectEndpoints({
                 body: data
             })
         }),
+        changeConversationStatus: builder.mutation({
+            query: ({ conversationId }) => ({
+                url: `/conversation-status/${conversationId}`,
+                method: 'PUT',
+                body: { isFriend: true }
+            })
+        }),
 
     })
 })
 
-export const { useAddConversationMutation } = conversationsAPI;
+export const { useAddConversationMutation, useChangeConversationStatusMutation } = conversationsAPI;

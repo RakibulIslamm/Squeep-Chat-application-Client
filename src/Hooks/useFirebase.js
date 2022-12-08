@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, getAuth, signOut } from "firebase/auth";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { authLogError, authRegError } from "../features/auth/authSlice";
+import { authLogError, authRegError, logOutUser } from "../features/auth/authSlice";
 import { authApp } from '../Firebase/firebaseInit'
 
 
@@ -61,6 +61,7 @@ const useFirebase = () => {
     const logOut = (navigate) => {
         signOut(auth)
             .then(() => {
+                dispatch(logOutUser());
                 navigate('/login');
             })
             .catch((error) => {

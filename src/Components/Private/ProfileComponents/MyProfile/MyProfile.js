@@ -21,7 +21,7 @@ const MyProfile = () => {
             </div>
         </>
     }
-    else if (!isLoading && !isError && isSuccess && user.email) {
+    else if (!isLoading && !isError && isSuccess && user?.email) {
         content = <MyProfileInfo user={user} />
     }
 

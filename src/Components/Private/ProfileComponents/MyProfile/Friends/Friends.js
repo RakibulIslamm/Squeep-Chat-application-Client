@@ -17,7 +17,7 @@ const Friends = () => {
         content = <p className='text-red-500'>Internal Server Error</p>
     }
     else if (!isLoading && !isError && !friends.length) {
-        content = <p className='text-white'>No People Found</p>
+        content = <p className='text-white'>You have no friend</p>
     }
     else if (!isLoading && !isError && isSuccess && friends.length) {
         content = friends.map(friend => <Friend key={friend._id} friend={friend} />)
@@ -36,9 +36,6 @@ const Friends = () => {
                 </div>
             </div>
             <div className='py-4 w-full grid grid-cols-2 gap-3'>
-                {content}
-                {content}
-                {content}
                 {content}
             </div>
         </div>

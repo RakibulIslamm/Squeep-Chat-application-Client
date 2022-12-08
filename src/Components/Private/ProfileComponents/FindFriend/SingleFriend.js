@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { AiOutlineUserAdd } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { useAddConversationMutation } from '../../../../features/conversations/conversationsAPI';
-import { useGetRequestedFriendsQuery, useSendFriendRequestMutation } from '../../../../features/friends/friendsApi';
+import { useSendFriendRequestMutation } from '../../../../features/friends/friendsApi';
 import { useGetUserQuery } from '../../../../features/user/userApi';
 import { RiUserShared2Line } from 'react-icons/ri';
 
 const SingleFriend = ({ user }) => {
     const [disabled, setDisabled] = useState(false);
-    const [addedUser, setAddedUser] = useState([]);
+    const [addedUsers, setAddedUsers] = useState([]);
 
     const { email: currentUserEmail } = useSelector(state => state.auth.user)
     const { data: currentUserData } = useGetUserQuery(currentUserEmail) || {}
@@ -33,7 +33,7 @@ const SingleFriend = ({ user }) => {
             const result = await addConversation({ data, email }).unwrap();
             if (result.insertedId) {
                 await sendFriendRequest({ currentUser, requestedPerson: user, conversationId: result.insertedId });
-                setAddedUser([...addedUser, user?.email]);
+                setAddedUsers([...addedUsers, user?.email]);
             }
         }
         catch (err) {
@@ -44,6 +44,7 @@ const SingleFriend = ({ user }) => {
         }
     }
 
+
     return (
         <div className='flex items-center justify-between'>
             <div className='flex items-center gap-2'>
@@ -52,7 +53,7 @@ const SingleFriend = ({ user }) => {
                 </div>
                 <p className='font-normal text-white'>{user?.name}</p>
             </div>
-            <button disabled={addedUser?.includes(user?.email) || disabled} onClick={handleAddFriend} className='px-3 py-[0px] bg-yellow text-lightBlack rounded-full text-sm disabled:bg-gray-400'>{addedUser?.includes(user?.email) ? <span className='flex items-center gap-1'><RiUserShared2Line /> Requested</span> : <span className='flex items-center gap-1'><AiOutlineUserAdd />Add Friend</span>}</button>
+            <button disabled={addedUsers?.includes(user?.email) || disabled} onClick={handleAddFriend} className='px-3 py-[0px] bg-yellow text-lightBlack rounded-full text-sm disabled:bg-gray-400'>{addedUsers?.includes(user?.email) ? <span className='flex items-center gap-1'><RiUserShared2Line /> Requested</span> : <span className='flex items-center gap-1'><AiOutlineUserAdd />Add Friend</span>}</button>
         </div>
     );
 };

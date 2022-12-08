@@ -10,6 +10,7 @@ import PublicRoute from "../utils/Routes/PublicRoute";
 import PrivateLayout from "./Private/PrivateLayout";
 import PublicLayout from "./Public/PublicLayout";
 import EmptyBody from "../Components/Private/InboxComponents/EmptyBody/EmptyBody";
+import FriendRequest from "../Components/Private/ProfileComponents/FriendRequest/FriendRequest";
 
 function Layout() {
 
@@ -33,6 +34,7 @@ function Layout() {
                 <Route path="/my-profile" element={<Profile />}>
                     <Route index element={<FindFriend />} />
                     <Route path="find-friends" element={<FindFriend />} />
+                    <Route path="friend-requests" element={<FriendRequest />} />
 
                 </Route>
             </Route>
