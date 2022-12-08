@@ -25,20 +25,23 @@ const Friends = () => {
 
 
     return (
-        <>
-            <div className='w-full h-[50px] flex items-center justify-between px-6 border-b border-secondary'>
-                <h2 className='text-xl font-semibold text-white '>My Friends</h2>
+        <div className='w-[700px] mx-auto'>
+            <div className='w-full h-[50px] flex items-center justify-between border-b border-secondary'>
+                <h2 className='text-xl font-semibold text-white'>My Friends</h2>
                 <div className='relative'>
-                    <input className='px-3 py-1 rounded-md w-full outline-none text-white bg-secondary' type="text" placeholder='Search friend...' />
+                    <input className='px-3 py-1 rounded-md w-[300px] outline-none text-white bg-secondary' type="text" placeholder='Search friend...' />
                     <button className='text-xl text-white absolute top-1/2 right-2 transform -translate-y-1/2'>
                         <IoSearchOutline />
                     </button>
                 </div>
             </div>
-            <div className='px-6 py-4 w-full flex flex-wrap gap-3'>
+            <div className='py-4 w-full grid grid-cols-2 gap-3'>
+                {content}
+                {content}
+                {content}
                 {content}
             </div>
-        </>
+        </div>
     );
 };
 
