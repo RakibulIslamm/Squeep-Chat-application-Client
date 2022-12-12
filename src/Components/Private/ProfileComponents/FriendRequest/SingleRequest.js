@@ -26,8 +26,10 @@ const SingleRequest = ({ friend }) => {
         setIsLoading(false)
     }
 
-    const handleRejectFriend = (id) => {
-        cancelFriend({ id, email })
+    const handleRejectFriend = async (id) => {
+        setIsLoading(true);
+        await cancelFriend({ id, email }).unwrap();
+        setIsLoading(false);
     }
 
 
@@ -49,7 +51,7 @@ const SingleRequest = ({ friend }) => {
                         </div>
                         }
                         {!isLoading && friend.status === 'friend' && <Link to={`/inbox/messages/${friend?.conversationId}`} className='px-5 py-[4px] bg-yellow text-lightBlack rounded-full text-sm disabled:bg-gray-400'>Send Message</Link>}
-                        {friend.status === 'cancel' && <button className='px-2 bg-yellow text-lightBlack rounded-full text-sm disabled:bg-gray-400' disabled>Canceled</button>}
+                        {!isLoading && friend.status === 'cancel' && <button className='px-2 bg-yellow text-lightBlack rounded-full text-sm disabled:bg-gray-400' disabled>Canceled</button>}
                     </>}
 
                 </div>

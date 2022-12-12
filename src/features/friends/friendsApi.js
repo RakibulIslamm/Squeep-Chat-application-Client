@@ -69,7 +69,27 @@ const friendsApi = apiSlice.injectEndpoints({
             query: ({ id, email }) => ({
                 url: `/cancel/${id}`,
                 method: 'DELETE',
-            })
+            }),
+            async onQueryStarted({ id, email }, { dispatch, queryFulfilled }) {
+                try {
+                    const result = await queryFulfilled;
+                    if (result.data.deletedCount > 0) {
+                        dispatch(
+                            apiSlice.util.updateQueryData('getFriendRequest', email, (draft) => {
+                                for (const user of draft) {
+                                    if (user._id === id) {
+                                        user.status = 'cancel'
+                                        console.log(user.status);
+                                    }
+                                }
+                            })
+                        )
+                    }
+                }
+                catch (err) {
+
+                }
+            }
         }),
         getMyFriends: builder.query({
             query: (email) => `/friends?email=${email}`

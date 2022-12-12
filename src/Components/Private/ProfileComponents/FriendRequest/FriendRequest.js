@@ -1,15 +1,16 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useGetFriendRequestQuery } from '../../../../features/friends/friendsApi';
 import SingleRequest from './SingleRequest';
 
 const FriendRequest = () => {
     const { email } = useSelector(state => state.auth.user);
-    const { data: friends, isLoading, isError, isSuccess } = useGetFriendRequestQuery(email);
+    const { data: friends, isLoading, isError, isSuccess, refetch } = useGetFriendRequestQuery(email);
     // const friendIds = data.map(friend => friend._id);
 
-    // useEffect(() => {
-    //     refetch()
-    // }, [refetch])
+    useEffect(() => {
+        refetch()
+    }, [refetch]);
 
     let content = null
     if (isLoading) {
