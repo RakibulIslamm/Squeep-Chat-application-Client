@@ -7,6 +7,7 @@ const apiSlice = createApi({
         baseUrl: 'http://localhost:5000',
         prepareHeaders: async (headers, { getState, endpoint }) => { }
     }),
+    refetchOnReconnect: true,
     tagTypes: [],
     endpoints: (builder) => ({
 

@@ -89,7 +89,7 @@ const friendsApi = apiSlice.injectEndpoints({
                 catch (err) {
 
                 }
-            }
+            },
         }),
         getMyFriends: builder.query({
             query: (email) => `/friends?email=${email}`
