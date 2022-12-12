@@ -7,7 +7,6 @@ import SingleConversation from './SingleConversation';
 const Conversations = () => {
     const { email } = useSelector(state => state.auth.user);
     const { data: conversations, isLoading, isError } = useGetConversationsQuery(email);
-    console.log(conversations);
 
     let content = null;
 

@@ -22,7 +22,7 @@ const SingleConversation = ({ conversation }) => {
                     <p className='text-xs text-[#9BA2B0]'>{timestamp ? moment(timestamp).fromNow() : ''}</p>
                 </div>
                 <div className='flex justify-between items-center gap-2'>
-                    <p className='text-sm font-semibold text-[#9BA2B0] line-clamp-1'>{lastMessage ? lastMessage : 'Hello...'}</p>
+                    <p className='text-sm font-semibold text-[#9BA2B0] line-clamp-1'>{lastMessage ? lastMessage : <span>You are now connected to message each other</span>}</p>
                     {unseenMessages > 0 && sender !== email && <span className='flex justify-center items-center w-6 h-5 bg-yellow rounded-full text-xs'>{sender !== email && unseenMessages}</span>}
                 </div>
             </div>
