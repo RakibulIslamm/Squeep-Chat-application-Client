@@ -5,17 +5,21 @@ import MessagesHeader from './MessagesHeader';
 import MessagesFooter from './MessagesFooter';
 import { useParams } from 'react-router-dom';
 import { useGetMessagesQuery } from '../../../../features/messages/messageAPI';
+import ContentLoader from 'react-content-loader';
+import MessagesLoader from '../../../../utils/Loader/MessagesLoader';
 
 const Messages = () => {
     const collapse = useSelector(state => state.toggle.sidebarToggle);
     const { email } = useSelector(state => state.auth.user);
 
-    const { id } = useParams();
-    const { data: messages, isLoading, isError } = useGetMessagesQuery({ conversationId: id, email });
-
     let content = null;
-    if (isLoading) {
-        content = 'Loading...'
+    const { id } = useParams();
+    const { data: messages, isLoading, isError, isFetching } = useGetMessagesQuery({ conversationId: id, email });
+
+    // console.log(isFetching);
+
+    if (isLoading || isFetching) {
+        content = <MessagesLoader />
     }
     else if (!isLoading && isError) {
         content = 'error'

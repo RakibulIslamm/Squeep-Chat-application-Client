@@ -22,7 +22,11 @@ export const conversationsAPI = apiSlice.injectEndpoints({
             query: (email) => `/conversations?email=${email}`,
         }),
 
+        getSingleConversation: builder.query({
+            query: (id) => `/conversation/${id}`
+        }),
+
     })
 })
 
-export const { useAddConversationMutation, useChangeConversationStatusMutation, useGetConversationsQuery } = conversationsAPI;
+export const { useAddConversationMutation, useChangeConversationStatusMutation, useGetConversationsQuery, useGetSingleConversationQuery } = conversationsAPI;
