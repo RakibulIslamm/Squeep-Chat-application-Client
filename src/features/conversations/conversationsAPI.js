@@ -10,6 +10,30 @@ export const conversationsAPI = apiSlice.injectEndpoints({
                 body: data
             })
         }),
+        updateConversation: builder.mutation({
+            query: ({ messageData, id, email }) => ({
+                url: `/conversations/${id}`,
+                method: 'PUT',
+                body: messageData
+            }),
+            async onQueryStarted({ messageData, id, email }, { queryFulfilled, dispatch }) {
+                const patchResult = dispatch(
+                    apiSlice.util.updateQueryData('getConversations', email, (draft) => {
+                        draft.forEach(conv => {
+                            if (conv._id === id) {
+                                conv.lastMessage = messageData.messageText;
+                                conv.sender = messageData.email;
+                                conv.timestamp = messageData.timestamp;
+                                return;
+                            }
+                        })
+
+                    })
+                )
+                const result = await queryFulfilled;
+                console.log(result.data.modifiedCount);
+            }
+        }),
         changeConversationStatus: builder.mutation({
             query: ({ conversationId }) => ({
                 url: `/conversation-status/${conversationId}`,
@@ -29,4 +53,4 @@ export const conversationsAPI = apiSlice.injectEndpoints({
     })
 })
 
-export const { useAddConversationMutation, useChangeConversationStatusMutation, useGetConversationsQuery, useGetSingleConversationQuery } = conversationsAPI;
+export const { useAddConversationMutation, useChangeConversationStatusMutation, useGetConversationsQuery, useGetSingleConversationQuery, useUpdateConversationMutation } = conversationsAPI;

@@ -5,7 +5,6 @@ import MessagesHeader from './MessagesHeader';
 import MessagesFooter from './MessagesFooter';
 import { useParams } from 'react-router-dom';
 import { useGetMessagesQuery } from '../../../../features/messages/messageAPI';
-import ContentLoader from 'react-content-loader';
 import MessagesLoader from '../../../../utils/Loader/MessagesLoader';
 
 const Messages = () => {
