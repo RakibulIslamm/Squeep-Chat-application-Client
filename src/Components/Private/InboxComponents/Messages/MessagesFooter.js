@@ -1,24 +1,40 @@
+import { useEffect } from 'react';
 import { BiImageAdd } from 'react-icons/bi'
 import { MdAttachFile, MdSend } from 'react-icons/md'
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useGetSingleConversationQuery, useUpdateConversationMutation } from '../../../../features/conversations/conversationsAPI';
+import { socket } from '../../../../utils/Socket.io/socket';
 
 const MessagesFooter = () => {
-    const { email } = useSelector(state => state.auth.user);
+    const { name, email } = useSelector(state => state.auth.user);
     const { id } = useParams();
 
+    const { data: conversation } = useGetSingleConversationQuery(id);
     const [updateConversation] = useUpdateConversationMutation();
+    const receiver = conversation?.users?.find(user => user.email !== email);
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
         const messageText = e.target.message.value;
-
+        const data = {
+            conversationId: id,
+            sender: {
+                name: name,
+                email: email
+            },
+            receiver: {
+                name: receiver.name,
+                email: receiver?.email
+            },
+            message: messageText,
+            timestamp: new Date().getTime(),
+        }
+        socket.emit("getMessage", data);
         const messageData = { messageText, email, timestamp: new Date().getTime() };
         updateConversation({ messageData, id, email });
         e.target.reset();
         e.target.message.focus();
-
     }
 
 

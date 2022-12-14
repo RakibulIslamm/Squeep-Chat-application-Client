@@ -26,12 +26,21 @@ export const conversationsAPI = apiSlice.injectEndpoints({
                                 conv.timestamp = messageData.timestamp;
                                 return;
                             }
+                        });
+                        draft.sort((x, y) => {
+                            return new Date(x.timestamp) < new Date(y.timestamp) ? 1 : -1
                         })
-
                     })
                 )
-                const result = await queryFulfilled;
-                console.log(result.data.modifiedCount);
+                try {
+                    await queryFulfilled;
+                }
+                catch (err) {
+                    patchResult.undo();
+                }
+                finally {
+
+                }
             }
         }),
         changeConversationStatus: builder.mutation({

@@ -9,7 +9,7 @@ const Message = ({ email, message }) => {
     return (
         <div className={`flex ${justify} w-full`}>
             <div className='w-full'>
-                {showDate && <p className={`text-xs text-[#8b99b3] mx-8 flex ${email === sender ? 'justify-end' : 'justify-start'}`}>{moment(timestamp).format("dddd, Do MMMM, h:mm a")}</p>}
+                {showDate && <p className={`text-xs text-[#8b99b3] mx-8 flex ${email === sender.email ? 'justify-end' : 'justify-start'}`}>{moment(timestamp).format("dddd, Do MMMM, h:mm a")}</p>}
                 <div className={`flex ${email === sender.email ? ' justify-end' : 'justify-start'}`}>
                     <p className={`px-4 py-2 ${email === sender.email ? 'bg-yellow text-lightBlack rounded-br-none border border-[#5E6778]' : 'bg-secondary text-white rounded-bl-none'} rounded-lg mx-8`} onClick={() => setShowDate(!showDate)}>{text}</p>
                 </div>

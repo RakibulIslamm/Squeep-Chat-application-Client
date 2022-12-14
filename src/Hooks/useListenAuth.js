@@ -4,6 +4,7 @@ import { onAuthStateChanged, getAuth } from 'firebase/auth'
 import { authApp } from "../Firebase/firebaseInit";
 import { useDispatch } from "react-redux";
 import { getCurrentUser } from "../features/auth/authSlice";
+import { socket } from "../utils/Socket.io/socket";
 
 
 const useListenAuth = () => {
@@ -15,6 +16,7 @@ const useListenAuth = () => {
             if (user) {
                 const currentUser = { name: user.displayName, email: user.email, img: user.photoURL }
                 dispatch(getCurrentUser(currentUser));
+                socket.emit('user', user.email);
                 // console.log(user);
             } else {
                 // console.log('User Not Found');
