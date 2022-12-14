@@ -9,7 +9,7 @@ const apiSlice = createApi({
 
         }
     }),
-    tagTypes: [],
+    tagTypes: ['friends'],
     endpoints: (builder) => ({
 
     })

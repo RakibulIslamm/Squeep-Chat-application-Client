@@ -11,7 +11,9 @@ export const messageAPI = apiSlice.injectEndpoints({
                     await cacheDataLoaded;
                     socket.on('message', (data) => {
                         updateCachedData(draft => {
-                            if (conversationId === data.conversationId) {
+                            // console.log(JSON.parse(JSON.stringify(draft)));
+                            // console.log(data);
+                            if (conversationId === data.conversationId && email !== data?.sender?.email) {
                                 const message = {
                                     _id: parseInt(draft.length) + 1,
                                     ...data

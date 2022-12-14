@@ -1,7 +1,7 @@
 import { RiUserUnfollowLine, RiUserReceived2Line } from 'react-icons/ri'
 import moment from "moment/moment";
 import { useSelector } from "react-redux";
-import { useChangeConversationStatusMutation } from '../../../../features/conversations/conversationsAPI';
+import { useChangeConversationStatusMutation, useGetSingleConversationQuery } from '../../../../features/conversations/conversationsAPI';
 import { useAcceptFriendMutation, useCancelFriendMutation } from '../../../../features/friends/friendsApi';
 import { Link } from 'react-router-dom';
 import RotatingLinesLoader from "../../../../utils/Loader/RotatingLinesLoader";
@@ -15,13 +15,14 @@ const SingleRequest = ({ friend }) => {
     const [changeConversationStatus] = useChangeConversationStatusMutation();
     const [acceptFriend] = useAcceptFriendMutation();
     const [cancelFriend] = useCancelFriendMutation();
+    const { data: conversation } = useGetSingleConversationQuery(friend?.conversationId);
 
     const handleAcceptFriend = async (id) => {
         setIsLoading(true);
         const result = await acceptFriend({ id, email }).unwrap();
         //console.log(result);
         if (result.modifiedCount) {
-            await changeConversationStatus({ conversationId: friend.conversationId }).unwrap();
+            await changeConversationStatus({ conversationId: friend.conversationId, conversation, email });
         }
         setIsLoading(false)
     }

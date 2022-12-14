@@ -15,13 +15,13 @@ const Messages = () => {
     const { id } = useParams();
     const { data: messages, isLoading, isError, isFetching } = useGetMessagesQuery({ conversationId: id, email });
 
-    // console.log(isFetching);
+    // console.log(messages);
 
     if (isLoading || isFetching) {
         content = <MessagesLoader />
     }
     else if (!isLoading && isError) {
-        content = 'error'
+
     }
     else if (!isLoading && !isError && !messages.length) {
         content = <div className='h-full flex justify-center items-center'>
@@ -33,32 +33,39 @@ const Messages = () => {
     }
 
     return (
-        <div className={`${collapse ? 'w-[calc(100%_-_320px)]' : 'w-[calc(100%_-_640px)]'} h-full transition-all ease-in-out duration-300`}>
-            <div className='h-full flex flex-col justify-between'>
-                <MessagesHeader />
-                <div className='h-[calc(100%_-_140px)] w-full px-6 py-4 overflow-y-auto flex flex-col-reverse gap-4 scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
-                    {content}
-                </div>
-                {<div className='hidden'>
-                    <div className='px-6 py-4 flex items-center gap-3'>
-                        <img className={`w-8 h-8 rounded-full`} src="https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg" alt="" />
-                        <span className='text-lg text-gray-800 flex items-end gap-1'>Typing<ThreeDots
-                            height="20"
-                            width="20"
-                            radius="9"
-                            color="#222021"
-                            ariaLabel="three-dots-loading"
-                            wrapperStyle={{}}
-                            wrapperClassName=""
-                            visible={true}
-                        /></span>
+        <>
+            {
+                !isLoading && isError ? <div className='flex justify-center items-center'>
+                    <h2 className='text-2xl text-gray-400 font-semibold'>Conversation Not found</h2>
+                </div> :
+                    <div className={`${collapse ? 'w-[calc(100%_-_320px)]' : 'w-[calc(100%_-_640px)]'} h-full transition-all ease-in-out duration-300`}>
+                        <div className='h-full flex flex-col justify-between'>
+                            <MessagesHeader />
+                            <div className='h-[calc(100%_-_140px)] w-full px-6 py-4 overflow-y-auto flex flex-col-reverse gap-4 scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
+                                {content}
+                            </div>
+                            {<div className='hidden'>
+                                <div className='px-6 py-4 flex items-center gap-3'>
+                                    <img className={`w-8 h-8 rounded-full`} src="https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg" alt="" />
+                                    <span className='text-lg text-gray-800 flex items-end gap-1'>Typing<ThreeDots
+                                        height="20"
+                                        width="20"
+                                        radius="9"
+                                        color="#222021"
+                                        ariaLabel="three-dots-loading"
+                                        wrapperStyle={{}}
+                                        wrapperClassName=""
+                                        visible={true}
+                                    /></span>
 
+                                </div>
+                            </div>}
+                            {/* Message Footer Goes Here */}
+                            <MessagesFooter />
+                        </div>
                     </div>
-                </div>}
-                {/* Message Footer Goes Here */}
-                <MessagesFooter />
-            </div>
-        </div>
+            }
+        </>
     );
 };
 

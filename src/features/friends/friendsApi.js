@@ -44,10 +44,10 @@ const friendsApi = apiSlice.injectEndpoints({
                 url: `/accept/${id}`,
                 method: 'PUT'
             }),
+            invalidatesTags: ['friends'],
             async onQueryStarted({ id, email }, { dispatch, queryFulfilled }) {
                 try {
                     const result = await queryFulfilled;
-
                     if (result.data.modifiedCount > 0) {
                         dispatch(
                             apiSlice.util.updateQueryData('getFriendRequest', email, (draft) => {
@@ -92,7 +92,8 @@ const friendsApi = apiSlice.injectEndpoints({
             },
         }),
         getMyFriends: builder.query({
-            query: (email) => `/friends?email=${email}`
+            query: (email) => `/friends?email=${email}`,
+            providesTags: ['friends']
         })
     })
 })
