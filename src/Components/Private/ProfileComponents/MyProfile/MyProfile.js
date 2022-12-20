@@ -5,6 +5,7 @@ import ProfilePhotoLoader from '../../../../utils/Loader/profileLoader/ProfilePh
 import { useGetUserQuery } from '../../../../features/user/userApi';
 import MyProfileInfo from './MyProfileInfo';
 import Friends from './Friends/Friends';
+import { socket } from '../../../../utils/Socket.io/socket';
 
 const MyProfile = () => {
 
