@@ -63,7 +63,6 @@ const ConversationsHeader = () => {
                         <IoSearchOutline />
                     </button>
                     <div id='search_container' className={`bg-secondary absolute w-full overflow-hidden overflow-y-auto bg-opacity-80 backdrop-blur-[3px] text-gray-300 scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg scrollbar-thumb-rounded-full scrollbar-track-rounded-full ${isActive ? 'h-[300px] z-40 shadow-2xl border border-primary rounded-b-md' : 'h-[0px]'}`}>
-                        <p className='p-3 z-50'>Search by Name</p>
                         {content}
                     </div>
                 </div>

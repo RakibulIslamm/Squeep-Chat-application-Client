@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 
 const SingleConversation = ({ conversation }) => {
     const { email } = useSelector(state => state.auth.user)
+    const allactiveUsers = useSelector(state => state?.activeUsers?.activeUsers);
     const { _id, users, lastMessage, unseenMessages, timestamp, sender } = conversation || {};
     const participant = users.find(user => user.email !== email);
 
@@ -14,7 +15,7 @@ const SingleConversation = ({ conversation }) => {
         <Link className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-primary ${_id === id ? 'bg-primary' : ''}`} to={`/inbox/messages/${_id}`}>
             <div className='w-[55px] h-[55px] flex items-center relative'>
                 <img className='rounded-full w-full' src="https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg" alt="" />
-                <div className=' absolute w-3 h-3 rounded-full bg-green bottom-1 right-1 border-[1px] border-yellow'></div>
+                <div className={`absolute w-3 h-3 rounded-full ${allactiveUsers.includes(participant?.email) ? 'bg-green' : 'bg-gray-500'} bottom-1 right-1 border-[1px] border-secondary`}></div>
             </div>
             <div className='w-full'>
                 <div className='flex justify-between items-center gap-2'>
