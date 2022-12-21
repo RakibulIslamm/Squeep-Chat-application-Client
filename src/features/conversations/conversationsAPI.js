@@ -66,6 +66,10 @@ export const conversationsAPI = apiSlice.injectEndpoints({
             }
         }),
 
+        getSearchedConversation: builder.query({
+            query: ({ text, email }) => `/search-conversations?search=${text}&email=${email}`
+        }),
+
         getSingleConversation: builder.query({
             query: (id) => `/conversation/${id}`
         }),
@@ -100,4 +104,4 @@ export const conversationsAPI = apiSlice.injectEndpoints({
     })
 })
 
-export const { useAddConversationMutation, useChangeConversationStatusMutation, useGetConversationsQuery, useGetSingleConversationQuery, useUpdateConversationMutation } = conversationsAPI;
+export const { useAddConversationMutation, useChangeConversationStatusMutation, useGetConversationsQuery, useGetSingleConversationQuery, useUpdateConversationMutation, useGetSearchedConversationQuery } = conversationsAPI;
