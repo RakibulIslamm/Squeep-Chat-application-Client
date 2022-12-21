@@ -4,8 +4,6 @@ import SingleFriend from './SingleFriend';
 import { MdArrowBack } from 'react-icons/md'
 import { handleConversationInfo } from '../../../../features/toggle/toggleSlice';
 import { useGetMyFriendsQuery } from '../../../../features/friends/friendsApi';
-import { useEffect } from 'react';
-import { useState } from 'react';
 
 const InboxSideBar = () => {
     const collapse = useSelector(state => state.toggle.sidebarToggle);
