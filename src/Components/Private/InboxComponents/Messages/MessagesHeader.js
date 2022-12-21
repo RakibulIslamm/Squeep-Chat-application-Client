@@ -8,6 +8,7 @@ import MessageHeaderLoader from '../../../../utils/Loader/MessageHeaderLoader';
 const MessagesHeader = () => {
     const conversationInfo = useSelector(state => state.toggle.conversationInfo);
     const { email } = useSelector(state => state.auth.user);
+    const allactiveUsers = useSelector(state => state?.activeUsers?.activeUsers);
     const dispatch = useDispatch();
     const { id } = useParams();
     const { data: conversation, isLoading, isFetching } = useGetSingleConversationQuery(id);
@@ -26,8 +27,8 @@ const MessagesHeader = () => {
                 <div>
                     <p className='font-bold text-sm text-[#9BA2B0]'>{participant?.name}</p>
                     <div className='flex items-center gap-1'>
-                        <div className='w-2 h-2 rounded-full bg-green'></div>
-                        <p className='text-xs text-[#9BA2B0]'>Online</p>
+                        <div className={`w-2 h-2 rounded-full ${allactiveUsers?.includes(participant?.email) ? 'bg-green' : 'bg-gray-500'}`}></div>
+                        <p className='text-xs text-[#9BA2B0]'>{allactiveUsers?.includes(participant?.email) ? 'Online' : 'Offline'}</p>
                     </div>
                 </div>
             </div>
