@@ -1,5 +1,7 @@
 import moment from 'moment/moment';
 import React, { useState } from 'react';
+import { BsThreeDots } from 'react-icons/bs';
+import { RiShareForwardLine } from 'react-icons/ri';
 
 const Message = ({ email, message }) => {
     const [showDate, setShowDate] = useState(false)
@@ -11,7 +13,13 @@ const Message = ({ email, message }) => {
             <div className='w-full'>
                 {showDate && <p className={`text-xs text-[#8b99b3] mx-8 flex ${email === sender.email ? 'justify-end' : 'justify-start'}`}>{moment(timestamp).format("dddd, Do MMMM, h:mm a")}</p>}
                 <div className={`flex ${email === sender.email ? ' justify-end' : 'justify-start'}`}>
-                    <p className={`px-4 py-2 ${email === sender.email ? 'bg-yellow text-lightBlack rounded-br-none border border-[#5E6778]' : 'bg-secondary text-white rounded-bl-none'} rounded-lg mx-8`} onClick={() => setShowDate(!showDate)}>{text}</p>
+                    <div className={`flex items-center ${email === sender.email ? ' justify-end' : 'justify-end flex-row-reverse'} gap-4 group w-full`}>
+                        <div className='flex items-center gap-4'>
+                            <button className='hidden group-hover:block text-2xl text-gray-500 hover:text-white'><RiShareForwardLine /></button>
+                            <button className='hidden group-hover:block text-2xl text-gray-500 hover:text-white'><BsThreeDots /></button>
+                        </div>
+                        <p className={`px-4 py-2 ${email === sender.email ? 'bg-yellow text-lightBlack rounded-br-none border border-[#5E6778] mr-8' : 'bg-secondary text-white rounded-bl-none ml-8'} rounded-lg`} onClick={() => setShowDate(!showDate)}>{text}</p>
+                    </div>
                 </div>
                 <div className={`flex items-center gap-2 ${email === sender.email ? 'flex-row-reverse' : ''}`}>
                     <img className={`w-8 h-8 rounded-full`} src="https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg" alt="" />

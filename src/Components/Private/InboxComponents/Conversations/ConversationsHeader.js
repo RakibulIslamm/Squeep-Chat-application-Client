@@ -33,15 +33,15 @@ const ConversationsHeader = () => {
             setSearchText(value);
         }
     }
-    const handleSearch = debounceHandler(doSearch, 1500);
+    const handleSearch = debounceHandler(doSearch, 500);
     // End De bounce
 
-    const { data: conversations, isLoading, isError } = useGetSearchedConversationQuery({ text: searchText, email });
+    const { data: conversations, isLoading, isError, isFetching } = useGetSearchedConversationQuery({ text: searchText, email });
 
     let content = null;
 
-    if (isLoading) {
-        content = <p>Loading...</p>
+    if (isLoading || isFetching) {
+        content = <p className='p-3 text-center'>Loading...</p>
     }
     else if (!isLoading && isError) {
         content = <p className='text-red-500 font-light px-5'>Something went wrong</p>
