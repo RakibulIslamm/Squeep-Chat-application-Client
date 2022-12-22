@@ -6,6 +6,8 @@ import MessagesFooter from './MessagesFooter';
 import { useParams } from 'react-router-dom';
 import { useGetMessagesQuery } from '../../../../features/messages/messageAPI';
 import MessagesLoader from '../../../../utils/Loader/MessagesLoader';
+import { socket } from '../../../../utils/Socket.io/socket';
+import { useGetSingleConversationQuery } from '../../../../features/conversations/conversationsAPI';
 
 const Messages = () => {
     const collapse = useSelector(state => state.toggle.sidebarToggle);
@@ -14,8 +16,16 @@ const Messages = () => {
     let content = null;
     const { id } = useParams();
     const { data: messages, isLoading, isError, isFetching } = useGetMessagesQuery({ conversationId: id, email });
+    const { data: conversation } = useGetSingleConversationQuery(id);
 
     // console.log(messages);
+
+
+    const handleMessageBodyClick = () => {
+        if (conversation.sender !== email) {
+            socket.emit('message-notification', id);
+        }
+    }
 
     if (isLoading || isFetching) {
         content = <MessagesLoader />
@@ -38,7 +48,7 @@ const Messages = () => {
                 !isLoading && isError ? <div className='flex justify-center items-center'>
                     <h2 className='text-2xl text-gray-400 font-semibold'>Conversation Not found</h2>
                 </div> :
-                    <div className={`${collapse ? 'w-[calc(100%_-_320px)]' : 'w-[calc(100%_-_640px)]'} h-full transition-all ease-in-out duration-300`}>
+                    <div onClick={handleMessageBodyClick} className={`${collapse ? 'w-[calc(100%_-_320px)]' : 'w-[calc(100%_-_640px)]'} h-full transition-all ease-in-out duration-300`}>
                         <div className='h-full flex flex-col justify-between'>
                             <MessagesHeader />
                             <div className='h-[calc(100%_-_140px)] w-full px-6 py-4 overflow-y-auto flex flex-col-reverse gap-4 scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>

@@ -15,8 +15,8 @@ const Message = ({ email, message }) => {
                 <div className={`flex ${email === sender.email ? ' justify-end' : 'justify-start'}`}>
                     <div className={`flex items-center ${email === sender.email ? ' justify-end' : 'justify-end flex-row-reverse'} gap-4 group w-full`}>
                         <div className='flex items-center gap-4'>
-                            <button className='hidden group-hover:block text-2xl text-gray-500 hover:text-white'><RiShareForwardLine /></button>
-                            <button className='hidden group-hover:block text-2xl text-gray-500 hover:text-white'><BsThreeDots /></button>
+                            <button className='hidden group-hover:block text-2xl text-gray-500 hover:text-white' title='Manage'><BsThreeDots /></button>
+                            <button className='hidden group-hover:block text-2xl text-gray-500 hover:text-white' title='Forward'><RiShareForwardLine /></button>
                         </div>
                         <p className={`px-4 py-2 ${email === sender.email ? 'bg-yellow text-lightBlack rounded-br-none border border-[#5E6778] mr-8' : 'bg-secondary text-white rounded-bl-none ml-8'} rounded-lg`} onClick={() => setShowDate(!showDate)}>{text}</p>
                     </div>

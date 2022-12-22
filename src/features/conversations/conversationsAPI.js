@@ -62,6 +62,16 @@ export const conversationsAPI = apiSlice.injectEndpoints({
                             return new Date(x.timestamp) < new Date(y.timestamp) ? 1 : -1
                         })
                     })
+                });
+                socket.on('message-notification-update', data => {
+                    if (data.result.modifiedCount) {
+                        updateCachedData(draft => {
+                            const conversation = draft.find(c => c?._id === data.id);
+                            if (conversation._id === data.id) {
+                                conversation.unseenMessages = 0;
+                            }
+                        })
+                    }
                 })
             }
         }),

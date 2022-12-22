@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import apiSlice from '../../../../features/api/apiSlice';
 import { useGetSingleConversationQuery, useUpdateConversationMutation } from '../../../../features/conversations/conversationsAPI';
+import { useSendMessageMutation } from '../../../../features/messages/messageAPI';
 import { socket } from '../../../../utils/Socket.io/socket';
 
 const MessagesFooter = () => {
@@ -12,6 +13,7 @@ const MessagesFooter = () => {
 
     const { data: conversation } = useGetSingleConversationQuery(id);
     const [updateConversation] = useUpdateConversationMutation();
+    const [sendMessage] = useSendMessageMutation()
     const receiver = conversation?.users?.find(user => user.email !== email);
 
     const dispatch = useDispatch();
@@ -43,7 +45,8 @@ const MessagesFooter = () => {
         )
         const messageData = { messageText, email, timestamp: new Date().getTime() };
         updateConversation({ messageData, id, email });
-        socket.emit("getMessage", data);
+        // socket.emit("getMessage", data);
+        sendMessage(data);
         e.target.reset();
         e.target.message.focus();
     }
