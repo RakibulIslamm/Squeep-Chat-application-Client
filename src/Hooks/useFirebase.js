@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { authLogError, authRegError, logOutUser } from "../features/auth/authSlice";
 import { authApp } from '../Firebase/firebaseInit'
+import { socket } from "../utils/Socket.io/socket";
 
 
 const useFirebase = () => {
@@ -62,6 +63,7 @@ const useFirebase = () => {
         signOut(auth)
             .then(() => {
                 dispatch(logOutUser());
+                socket.disconnect()
                 navigate('/login');
             })
             .catch((error) => {

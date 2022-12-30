@@ -15,6 +15,15 @@ module.exports = {
         'yellow': '#FFE14C',
         'green': '#39FF14',
       },
+      screens: {
+        xxs: { max: '400px' },
+        xs: { max: '664px' }, // Mobile (iPhone 3 - iPhone XS Max).
+        sm: { min: '665px', max: '897px' }, // Mobile (matches max: iPhone 11 Pro Max landscape @ 896px).
+        md: { min: '898px', max: '1180px' }, // Tablet (matches max: iPad Pro @ 1112px).
+        lg: { min: '1181px' }, // Desktop smallest.
+        xl: { min: '1159px' }, // Desktop wide.
+        xxl: { min: '1359px' } // Desktop widescreen.
+      },
     },
   },
   plugins: [

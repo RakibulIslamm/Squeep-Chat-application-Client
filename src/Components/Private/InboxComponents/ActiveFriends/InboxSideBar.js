@@ -12,7 +12,7 @@ const InboxSideBar = () => {
     const { email } = useSelector(state => state.auth.user);
     const allactiveUsers = useSelector(state => state?.activeUsers?.activeUsers);
     const activeUsers = allactiveUsers.filter(userEmail => userEmail !== email);
-    console.log(allactiveUsers);
+    // console.log(allactiveUsers);
     const { data: friends, isLoading, isError, isSuccess } = useGetMyFriendsQuery(email);
     let content = null;
 
@@ -33,7 +33,7 @@ const InboxSideBar = () => {
 
 
     return (
-        <div className={`${collapse ? 'w-0' : 'w-[320px]'} h-full bg-secondary flex flex-col justify-start transition-all ease-in-out duration-300`}>
+        <div className={`${collapse ? 'w-0' : 'w-[320px]'} md:w-0 sm:w-0 xs:w-0 overflow-hidden h-full bg-secondary flex flex-col justify-start transition-all ease-in-out duration-300`}>
             <div className='px-4 h-[70px] w-full flex items-center gap-4 border-b border-primary'>
                 <button onClick={() => dispatch(handleConversationInfo(false))} className={`flex items-center gap-1 text-base text-white hover:text-yellow ${!conversationInfo && "hidden"} transition-all ease-in-out`}><MdArrowBack />Back</button>
                 <h3 className={`flex items-center gap-1 text-lg font-semibold text-white ${conversationInfo && "hidden"} transition-all ease-in-out`}>Active friends</h3>

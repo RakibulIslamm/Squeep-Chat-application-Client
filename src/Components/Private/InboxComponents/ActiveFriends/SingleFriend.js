@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 const SingleFriend = ({ activeFriend }) => {
     const { email } = useSelector(state => state.auth.user);
+    // console.log(activeFriend);
     const user = activeFriend?.users?.find(u => u.email !== email);
 
     return (

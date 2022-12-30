@@ -24,7 +24,7 @@ const Conversations = () => {
     }
 
     return (
-        <div className='w-[320px] h-full bg-secondary flex flex-col justify-start'>
+        <div className='w-[320px] xs:w-0 overflow-hidden h-full bg-secondary flex flex-col justify-start'>
             {/* conversation header Goes here */}
             <ConversationsHeader />
             <div className='h-[calc(100%_-_140px)] w-full overflow-auto scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
