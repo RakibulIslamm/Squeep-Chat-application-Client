@@ -48,10 +48,10 @@ const Messages = () => {
                 !isLoading && isError ? <div className='flex justify-center items-center'>
                     <h2 className='text-2xl text-gray-400 font-semibold'>Conversation Not found</h2>
                 </div> :
-                    <div onClick={handleMessageBodyClick} className={` md:w-[calc(100%_-_320px)] sm:w-[calc(100%_-_320px)] xs:w-full ${collapse ? 'w-[calc(100%_-_320px)]' : 'w-[calc(100%_-_640px)]'}  h-full transition-all ease-in-out duration-300`}>
+                    <div onClick={handleMessageBodyClick} className={` md:w-[calc(100%_-_320px)] sm:w-[calc(100%_-_280px)] xs:w-full ${collapse ? 'w-[calc(100%_-_320px)]' : 'w-[calc(100%_-_640px)]'}  h-full transition-all ease-in-out duration-300`}>
                         <div className='h-full flex flex-col justify-between'>
                             <MessagesHeader />
-                            <div className='h-[calc(100%_-_140px)] w-full px-6 py-4 overflow-y-auto flex flex-col-reverse gap-4 scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
+                            <div className='h-[calc(100%_-_140px)] w-full px-6 xxs:px-3 py-4 overflow-y-auto flex flex-col-reverse gap-4 scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
                                 {content}
                             </div>
                             {<div className='hidden'>

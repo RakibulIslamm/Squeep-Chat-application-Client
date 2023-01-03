@@ -14,16 +14,16 @@ const Message = ({ email, message }) => {
                 {showDate && <p className={`text-xs text-[#8b99b3] mx-8 flex ${email === sender.email ? 'justify-end' : 'justify-start'}`}>{moment(timestamp).format("dddd, Do MMMM, h:mm a")}</p>}
                 <div className={`flex ${email === sender.email ? ' justify-end' : 'justify-start'}`}>
                     <div className={`flex items-center ${email === sender.email ? ' justify-end' : 'justify-end flex-row-reverse'} gap-4 group w-full`}>
-                        <div className='flex items-center gap-4'>
-                            <button className='hidden group-hover:block text-2xl text-gray-500 hover:text-white' title='Manage'><BsThreeDots /></button>
-                            <button className='hidden group-hover:block text-2xl text-gray-500 hover:text-white' title='Forward'><RiShareForwardLine /></button>
+                        <div className={`flex items-center gap-4 xxs:gap-3 ${email !== sender.email && 'flex-row-reverse'}`}>
+                            <button className='hidden xs:block group-hover:block text-2xl xxs:text-lg text-gray-500 hover:text-white transform rotate-90' title='Manage'><BsThreeDots /></button>
+                            <button className={`hidden xs:block group-hover:block text-2xl xxs:text-lg text-gray-500 hover:text-white ${email === sender.email && 'transform -scale-x-100'}`} title='Forward'><RiShareForwardLine /></button>
                         </div>
-                        <p className={`px-4 py-2 ${email === sender.email ? 'bg-yellow text-lightBlack rounded-br-none border border-[#5E6778] mr-8' : 'bg-secondary text-white rounded-bl-none ml-8'} rounded-lg`} onClick={() => setShowDate(!showDate)}>{text}</p>
+                        <p className={`px-4 xxs:px-2 py-2 xxs:py-1 xxs:text-sm ${email === sender.email ? 'bg-yellow text-lightBlack rounded-br-none border border-[#5E6778] mr-8 xxs:mr-6' : 'bg-secondary text-white rounded-bl-none ml-8 xxs:ml-6'} rounded-lg`} onClick={() => setShowDate(!showDate)}>{text}</p>
                     </div>
                 </div>
                 <div className={`flex items-center gap-2 ${email === sender.email ? 'flex-row-reverse' : ''}`}>
-                    <img className={`w-8 h-8 rounded-full`} src="https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg" alt="" />
-                    <span className='text-xs text-gray-400'>{sender.email !== email && sender.name}</span>
+                    <img className={`w-8 xxs:w-6 h-8 xxs:h-6 rounded-full`} src="https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg" alt="" />
+                    <span className='text-xs xxs:text-[10px] text-gray-400'>{sender.email !== email && sender.name}</span>
                 </div>
             </div>
         </div>

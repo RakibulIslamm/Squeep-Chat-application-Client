@@ -11,6 +11,7 @@ import PrivateLayout from "./Private/PrivateLayout";
 import PublicLayout from "./Public/PublicLayout";
 import EmptyBody from "../Components/Private/InboxComponents/EmptyBody/EmptyBody";
 import FriendRequest from "../Components/Private/ProfileComponents/FriendRequest/FriendRequest";
+import Settings from "../Pages/Settings";
 
 function Layout() {
 
@@ -23,6 +24,7 @@ function Layout() {
             </Route>
 
             {/* Private Layout */}
+            {/* inbox routes */}
             <Route path="/inbox" element={<PrivateRoute><PrivateLayout /></PrivateRoute>}>
                 <Route path="/inbox" element={<Inbox />}>
                     <Route index element={<EmptyBody />} />
@@ -30,11 +32,19 @@ function Layout() {
                 </Route>
             </Route>
 
+            {/* Profile routes */}
             <Route path="/my-profile" element={<PrivateRoute><PrivateLayout /></PrivateRoute>}>
                 <Route path="/my-profile" element={<Profile />}>
                     <Route index element={<FindFriend />} />
                     <Route path="find-friends" element={<FindFriend />} />
                     <Route path="friend-requests" element={<FriendRequest />} />
+
+                </Route>
+            </Route>
+
+            {/* settings route */}
+            <Route path="/settings" element={<PrivateRoute><PrivateLayout /></PrivateRoute>}>
+                <Route path="/settings" element={<Settings />}>
 
                 </Route>
             </Route>

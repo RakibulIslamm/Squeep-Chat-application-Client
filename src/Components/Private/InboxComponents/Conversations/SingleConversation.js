@@ -19,12 +19,12 @@ const SingleConversation = ({ conversation }) => {
             </div>
             <div className='w-full'>
                 <div className='flex justify-between items-center gap-2'>
-                    <p className='font-bold text-[#9BA2B0] line-clamp-1'>{participant?.name}</p>
+                    <p className='font-bold sm:text-sm text-[#9BA2B0] line-clamp-1'>{participant?.name}</p>
                     <p className='text-xs text-[#9BA2B0]'>{timestamp ? moment(timestamp).fromNow() : ''}</p>
                 </div>
                 <div className='flex justify-between items-center gap-2'>
                     <p className={`text-sm  ${sender !== email && unseenMessages > 0 ? 'text-white font-semibold' : 'text-[#9BA2B0]'} line-clamp-1`}>{lastMessage ? lastMessage : <span>You are now connected to message each other</span>}</p>
-                    {unseenMessages > 0 && sender !== email && <span className='flex justify-center items-center w-6 h-5 bg-yellow rounded-full text-xs'>{sender !== email && unseenMessages}</span>}
+                    {unseenMessages > 0 && sender !== email && <span className='flex justify-center items-center w-6 h-5 bg-yellow rounded-full text-xs'>{sender !== email && unseenMessages <= 9 ? unseenMessages : '9+'}</span>}
                 </div>
             </div>
         </Link>

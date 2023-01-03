@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { IoSearchOutline } from 'react-icons/io5'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useGetSearchedConversationQuery } from '../../../../features/conversations/conversationsAPI';
+import { totalUnseenMessages } from '../../../../features/notification/notificationSlice';
 import SearchedConversation from './SearchedConversation';
 
-const ConversationsHeader = () => {
+const ConversationsHeader = ({ allConversations }) => {
     const [searchText, setSearchText] = useState(null);
     const { email } = useSelector(state => state.auth.user);
     const [isActive, setIsActive] = useState(false);
@@ -17,6 +18,7 @@ const ConversationsHeader = () => {
             setIsActive(false);
         }
     });
+
 
     // Search Handled by De bounce function 
     const debounceHandler = (fn, delay) => {
@@ -37,6 +39,7 @@ const ConversationsHeader = () => {
     // End De bounce
 
     const { data: conversations, isLoading, isError, isFetching } = useGetSearchedConversationQuery({ text: searchText, email });
+    console.log(allConversations);
 
     let content = null;
 
@@ -53,10 +56,20 @@ const ConversationsHeader = () => {
         content = conversations.map(conversation => <SearchedConversation key={conversation._id} conversation={conversation} />)
     }
 
+    // show conversations notifications
+    const dispatch = useDispatch();
+    const filtered = allConversations?.filter(c => c.sender !== email);
+    const unseenM = filtered?.reduce((prev, currentData) => prev + currentData?.unseenMessages, 0);
+    useEffect(() => {
+        dispatch(totalUnseenMessages(unseenM));
+    }, [allConversations, email, dispatch, unseenM]);
+    const { unseenMessages } = useSelector(state => state.notification);
+
+
     return (
         <div className='px-4 h-[140px] flex items-center'>
             <div className='space-y-4 w-full'>
-                {<h2 className='text-xl font-medium text-white flex items-center gap-2'>Messages {<span className='rounded-full bg-yellow text-lightBlack text-sm font-normal w-6 h-6 flex items-center justify-center'>9+</span>} </h2>}
+                {<h2 className='text-xl font-medium text-white flex items-center gap-2'>Messages {unseenMessages > 0 && <span className='rounded-full bg-yellow text-lightBlack text-sm font-normal w-6 h-6 flex items-center justify-center'>{unseenMessages <= 9 ? unseenMessages : '9+'}</span>} </h2>}
                 <div className='relative'>
                     <input onChange={(e) => handleSearch(e.target.value)} id='input_box' className={`px-3 py-2 rounded-md ${isActive ? 'rounded-b-none' : 'rounded-md'} w-full outline-none bg-primary text-white`} type="text" placeholder='Search...' />
                     <button className='text-2xl text-white absolute top-1/2 right-2 transform -translate-y-1/2'>

@@ -7,7 +7,9 @@ import CustomLink from '../../../utils/CustomLink';
 import { useDispatch, useSelector } from 'react-redux';
 import { collapseSidebar } from '../../../features/toggle/toggleSlice'
 import useFirebase from '../../../Hooks/useFirebase'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams, useResolvedPath } from 'react-router-dom'
+import { useGetSingleConversationQuery } from '../../../features/conversations/conversationsAPI'
+import { useEffect } from 'react'
 
 const SideBar = () => {
     const toggle = useSelector(state => state.toggle.sidebarToggle)
@@ -29,36 +31,36 @@ const SideBar = () => {
 
             <div className='w-full'>
                 <CustomLink title='Home' to={'/my-profile'}>
-                    <AiOutlineHome className='text-2xl' />
+                    <AiOutlineHome className='text-2xl xs:text-xl' />
                     <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Home</p>
                 </CustomLink>
                 <CustomLink title='Messages' to={`/inbox`}>
-                    <BiMessageDetail className='text-2xl' />
+                    <BiMessageDetail className='text-2xl xs:text-xl' />
                     <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Messages</p>
                 </CustomLink>
                 <CustomLink title='Friends' to={'/friends'}>
-                    <IoPeopleOutline className='text-2xl' />
+                    <IoPeopleOutline className='text-2xl xs:text-xl' />
                     <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Friends</p>
                 </CustomLink>
                 <CustomLink title='Favorites' to={'/favorites'}>
-                    <BiStar className='text-2xl' />
+                    <BiStar className='text-2xl xs:text-xl' />
                     <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Favorites</p>
                 </CustomLink>
             </div>
 
             <div className='w-full'>
                 <CustomLink title='Settings' to={'/settings'}>
-                    <IoSettingsOutline className='text-2xl' />
+                    <IoSettingsOutline className='text-2xl xs:text-xl' />
                     <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Settings</p>
                 </CustomLink>
                 <button onClick={handleLogOut} className='w-full py-4 pl-4 hover:bg-secondary text-white flex items-center gap-3 transition-all ease-in-out relative font-light' title='Logout' >
-                    <IoExitOutline className='text-2xl' />
+                    <IoExitOutline className='text-2xl xs:text-xl' />
                     <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Logout</p>
                 </button>
             </div>
             <div className='w-full'>
                 <button className='w-full py-4 pl-4 hover:bg-secondary text-white flex items-center gap-3 transition-all ease-in-out relative font-light' title='Collapse' onClick={() => dispatch(collapseSidebar())} >
-                    {toggle ? <BsArrowLeft className='text-2xl' /> : <BsArrowRight className='text-2xl' />}
+                    {toggle ? <BsArrowLeft className='text-2xl xs:text-xl' /> : <BsArrowRight className='text-2xl' />}
                     <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Collapse</p>
                 </button>
             </div>

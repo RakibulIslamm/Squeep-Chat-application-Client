@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate, useResolvedPath } from 'react-router-dom';
 import { useGetConversationsQuery } from '../../../../features/conversations/conversationsAPI';
 import ConversationsLoader from '../../../../utils/Loader/ConversationsLoader';
 import ConversationsHeader from './ConversationsHeader';
@@ -23,10 +25,25 @@ const Conversations = () => {
         content = conversations.map(conversation => <SingleConversation key={conversation._id} conversation={conversation} />)
     }
 
+    // Redirect to first conversation
+    let resolved = useResolvedPath();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (resolved.pathname === '/inbox') {
+            if (!isLoading && !isError && conversations.length && conversations[0]?._id) {
+                navigate(`/inbox/messages/${conversations[0]?._id}`)
+            }
+            else {
+                navigate('/inbox');
+            }
+        }
+    }, [navigate, conversations, resolved.pathname, isLoading, isError])
+
     return (
-        <div className='w-[320px] xs:w-0 overflow-hidden h-full bg-secondary flex flex-col justify-start'>
+        <div className='w-[320px] sm:w-[280px] xs:w-0 overflow-hidden h-full bg-secondary flex flex-col justify-start'>
             {/* conversation header Goes here */}
-            <ConversationsHeader />
+            <ConversationsHeader allConversations={conversations} />
+
             <div className='h-[calc(100%_-_140px)] w-full overflow-auto scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
                 {content}
             </div>

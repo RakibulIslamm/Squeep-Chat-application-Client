@@ -4,7 +4,7 @@ import SideBar from "../../Components/Private/Shared/SideBar";
 const PrivateLayout = () => {
 
     return (
-        <div className='max-w-[1920px] min-h-[500px] h-screen bg-primary mx-auto overflow-hidden flex items-start'>
+        <div className='max-w-[1920px] min-h-[500px] xs:min-h-screen xxs:min-h-screen h-screen bg-primary mx-auto overflow-hidden flex items-start'>
             <SideBar />
             <Outlet />
         </div>

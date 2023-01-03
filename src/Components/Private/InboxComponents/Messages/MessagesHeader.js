@@ -21,12 +21,12 @@ const MessagesHeader = () => {
         content = <MessageHeaderLoader />
     }
     else if (!isLoading && conversation) {
-        content = <div className='w-full flex items-center gap-3 py-4'>
-            <img className='rounded-full w-[35px] h-[35px]' src={"https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
+        content = <div className='w-full flex items-center gap-3 xxs:gap-1 py-4'>
+            <img className='rounded-full w-[35px] h-[35px] xxs:w-[25px] xxs:h-[25px]' src={"https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
             <div className='w-full'>
                 <div>
-                    <p className='font-bold text-sm text-[#9BA2B0]'>{participant?.name}</p>
-                    <div className='flex items-center gap-1'>
+                    <p className='font-bold text-sm xxs:text-xs text-[#9BA2B0]'>{participant?.name}</p>
+                    <div className='flex items-center gap-1 xxs:hidden'>
                         <div className={`w-2 h-2 rounded-full ${allactiveUsers?.includes(participant?.email) ? 'bg-green' : 'bg-gray-500'}`}></div>
                         <p className='text-xs text-[#9BA2B0]'>{allactiveUsers?.includes(participant?.email) ? 'Online' : 'Offline'}</p>
                     </div>
@@ -37,12 +37,12 @@ const MessagesHeader = () => {
 
 
     return (
-        <div className='w-full h-[70px] bg-secondary px-6 border-l border-primary flex items-center justify-between border-r'>
+        <div className='w-full h-[70px] xxs:h-[50px] bg-secondary px-6 xxs:px-3 border-l border-primary flex items-center justify-between border-r'>
             {content}
             <div className='flex items-center gap-4'>
-                <button><IoMdCall className='text-[30px] text-white rounded-full p-1 hover:bg-primary' /></button>
-                <button><IoMdVideocam className='text-[30px] text-white rounded-full p-1 hover:bg-primary' /></button>
-                <button onClick={() => dispatch(handleConversationInfo(true))}><IoMdInformationCircle className={`text-[30px] text-white rounded-full p-1 hover:bg-primary ${conversationInfo && 'bg-primary'}`} /></button>
+                <button><IoMdCall className='text-[30px] xxs:text-[22px] text-white rounded-full p-1 hover:bg-primary' /></button>
+                <button><IoMdVideocam className='text-[30px] xxs:text-[22px] text-white rounded-full p-1 hover:bg-primary' /></button>
+                <button onClick={() => dispatch(handleConversationInfo(true))}><IoMdInformationCircle className={`text-[30px] xxs:text-[22px] text-white rounded-full p-1 hover:bg-primary ${conversationInfo && 'bg-primary'}`} /></button>
             </div>
         </div>
     );
