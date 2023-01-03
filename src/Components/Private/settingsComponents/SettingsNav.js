@@ -6,7 +6,8 @@ const SettingsNav = () => {
     return (
         <div className='flex items-center justify-between'>
             <div className='py-2 flex items-center justify-between gap-5 text-white'>
-                <Link className='px-4 py-1 text-yellow hover:text-yellow font-medium border border-yellow hover:border-yellow rounded-lg' to='/account-settings'>Account Settings</Link>
+                <Link className='px-4 py-1 text-yellow hover:text-yellow font-medium border border-yellow hover:border-yellow rounded-lg' to='/settings'>Account Settings</Link>
+                <Link className='px-4 py-1 text-gray-400 hover:text-yellow' to='/additional-settings'>Change Password</Link>
                 <Link className='px-4 py-1 text-gray-400 hover:text-yellow' to='/notification-settings'>Notification Settings</Link>
                 <Link className='px-4 py-1 text-gray-400 hover:text-yellow' to='/additional-settings'>Additional Settings</Link>
             </div>

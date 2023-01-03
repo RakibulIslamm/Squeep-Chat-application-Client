@@ -10,7 +10,7 @@ const MyProfile = () => {
 
     const { email } = useSelector(state => state.auth.user)
     const { data: user, isLoading, isError, isSuccess } = useGetUserQuery(email)
-    // console.log(user);
+    console.log(user);
 
     let content = null;
     if (isLoading) {

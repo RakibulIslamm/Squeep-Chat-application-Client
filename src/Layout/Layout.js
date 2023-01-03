@@ -12,6 +12,7 @@ import PublicLayout from "./Public/PublicLayout";
 import EmptyBody from "../Components/Private/InboxComponents/EmptyBody/EmptyBody";
 import FriendRequest from "../Components/Private/ProfileComponents/FriendRequest/FriendRequest";
 import Settings from "../Pages/Settings";
+import AccountSettings from "../Components/Private/settingsComponents/AccountSettings";
 
 function Layout() {
 
@@ -45,7 +46,7 @@ function Layout() {
             {/* settings route */}
             <Route path="/settings" element={<PrivateRoute><PrivateLayout /></PrivateRoute>}>
                 <Route path="/settings" element={<Settings />}>
-
+                    <Route index element={<AccountSettings />} />
                 </Route>
             </Route>
 
