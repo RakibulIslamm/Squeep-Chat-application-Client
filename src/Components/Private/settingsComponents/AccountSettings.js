@@ -33,7 +33,7 @@ const AccountSettings = () => {
                 </div>
                 <div className='flex items-center gap-4'>
                     <button className='px-5 py-2 border border-gray-600 rounded-lg text-gray-700 bg-yellow disabled:bg-gray-600' type="submit" disabled={!isEdit}>Update Profile</button>
-                    {!isEdit && <button onClick={() => setIsEdit(!isEdit)} className='px-5 py-2 rounded-lg text-gray-300 underline' type="submit">Edit Profile</button>}
+                    {!isEdit && <button onClick={() => setIsEdit(!isEdit)} className='rounded-lg text-gray-300 underline' type="submit">Edit Profile</button>}
                     {isEdit && <button onClick={() => setIsEdit(!isEdit)} className='px-5 py-2 border border-gray-600 rounded-lg text-gray-300 hover:bg-primary' type="submit">Cancel</button>}
                 </div>
             </form>

@@ -6,7 +6,8 @@ const initialState = {
     accessToken: '',
     authLogError: null,
     authRegError: null,
-    regLoading: false
+    regLoading: false,
+    passUpdated: false
 }
 
 
@@ -33,8 +34,11 @@ const authSlice = createSlice({
         authRegLoading: (state, action) => {
             state.regLoading = action.payload;
         },
+        passUpdated: (state, action) => {
+            state.passUpdated = action.payload;
+        }
     }
 });
 
 export default authSlice.reducer;
-export const { getCurrentUser, logOutUser, authLogError, authRegError, authRegLoading } = authSlice.actions;
+export const { getCurrentUser, logOutUser, authLogError, authRegError, authRegLoading, passUpdated } = authSlice.actions;

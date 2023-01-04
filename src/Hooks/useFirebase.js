@@ -1,7 +1,7 @@
-import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, getAuth, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, getAuth, signOut, EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { authLogError, authRegError, logOutUser } from "../features/auth/authSlice";
+import { authLogError, authRegError, logOutUser, passUpdated } from "../features/auth/authSlice";
 import { authApp } from '../Firebase/firebaseInit'
 import { socket } from "../utils/Socket.io/socket";
 
@@ -58,6 +58,25 @@ const useFirebase = () => {
 
     }
 
+    // Change password
+    const changePassword = async (currentPassword, newPassword) => {
+        try {
+            const user = auth.currentUser;
+            const credential = EmailAuthProvider.credential(user.email, currentPassword);
+            console.log();
+            const check = await reauthenticateWithCredential(user, credential);
+            if (check) {
+                await updatePassword(user, newPassword);
+                dispatch(passUpdated(true));
+                setTimeout(() => {
+                    dispatch(passUpdated(false));
+                }, 10000);
+            }
+        } catch (e) {
+            console.log(e.message);
+        }
+    }
+
     // Log Out
     const logOut = (navigate) => {
         signOut(auth)
@@ -77,7 +96,8 @@ const useFirebase = () => {
         login,
         logOut,
         loginLoading,
-        regLoading
+        regLoading,
+        changePassword,
     }
 
 }
