@@ -8,7 +8,7 @@ const AccountSettings = () => {
     const [error, setError] = useState('')
     const [imgLink, setImgLink] = useState('');
     const [isUploading, setIsUploading] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    // const [isLoading, setIsLoading] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
 

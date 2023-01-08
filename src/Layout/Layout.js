@@ -13,6 +13,8 @@ import EmptyBody from "../Components/Private/InboxComponents/EmptyBody/EmptyBody
 import FriendRequest from "../Components/Private/ProfileComponents/FriendRequest/FriendRequest";
 import Settings from "../Pages/Settings";
 import AccountSettings from "../Components/Private/settingsComponents/AccountSettings";
+import ChangePassword from "../Components/Private/settingsComponents/ChangePassword/ChangePassword";
+import NotificationSettings from "../Components/Private/settingsComponents/NotificationSettings";
 
 function Layout() {
 
@@ -47,6 +49,8 @@ function Layout() {
             <Route path="/settings" element={<PrivateRoute><PrivateLayout /></PrivateRoute>}>
                 <Route path="/settings" element={<Settings />}>
                     <Route index element={<AccountSettings />} />
+                    <Route path="change-password" element={<ChangePassword />} />
+                    <Route path="notification-settings" element={<NotificationSettings />} />
                 </Route>
             </Route>
 

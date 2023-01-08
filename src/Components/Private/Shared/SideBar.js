@@ -7,9 +7,7 @@ import CustomLink from '../../../utils/CustomLink';
 import { useDispatch, useSelector } from 'react-redux';
 import { collapseSidebar } from '../../../features/toggle/toggleSlice'
 import useFirebase from '../../../Hooks/useFirebase'
-import { useNavigate, useParams, useResolvedPath } from 'react-router-dom'
-import { useGetSingleConversationQuery } from '../../../features/conversations/conversationsAPI'
-import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const SideBar = () => {
     const toggle = useSelector(state => state.toggle.sidebarToggle)

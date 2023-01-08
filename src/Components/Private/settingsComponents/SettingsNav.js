@@ -1,15 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { RxAvatar } from "react-icons/rx";
+import SettingsCustomLink from '../../../utils/SettingsCustomLink';
 
 const SettingsNav = () => {
     return (
         <div className='flex items-center justify-between'>
             <div className='py-2 flex items-center justify-between gap-5 text-white'>
-                <Link className='px-4 py-1 text-yellow hover:text-yellow font-medium border border-yellow hover:border-yellow rounded-lg' to='/settings'>Account Settings</Link>
-                <Link className='px-4 py-1 text-gray-400 hover:text-yellow' to='/additional-settings'>Change Password</Link>
-                <Link className='px-4 py-1 text-gray-400 hover:text-yellow' to='/notification-settings'>Notification Settings</Link>
-                <Link className='px-4 py-1 text-gray-400 hover:text-yellow' to='/additional-settings'>Additional Settings</Link>
+                <SettingsCustomLink to='/settings'>Account Settings</SettingsCustomLink>
+                <SettingsCustomLink to='/settings/change-password'>Change Password</SettingsCustomLink>
+                <SettingsCustomLink to='/settings/notification-settings'>Notification Settings</SettingsCustomLink>
+                <SettingsCustomLink to='/settings/additional-settings'>Additional Settings</SettingsCustomLink>
             </div>
             <div className='flex items-center gap-2'>
                 <h3 className='text-lg font-medium text-gray-300'>Rakibul Islam</h3>
