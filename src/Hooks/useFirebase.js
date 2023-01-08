@@ -1,3 +1,4 @@
+import { async } from "@firebase/util";
 import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, getAuth, signOut, EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -9,6 +10,7 @@ import { socket } from "../utils/Socket.io/socket";
 const useFirebase = () => {
     const [loginLoading, setLoginLoading] = useState(false);
     const [regLoading, setRegLoading] = useState(false);
+    const [updatePassError, setUpdatePassError] = useState('');
     const auth = getAuth(authApp);
     const dispatch = useDispatch();
 
@@ -59,22 +61,28 @@ const useFirebase = () => {
     }
 
     // Change password
-    const changePassword = async (currentPassword, newPassword) => {
-        try {
-            const user = auth.currentUser;
-            const credential = EmailAuthProvider.credential(user.email, currentPassword);
-            console.log();
-            const check = await reauthenticateWithCredential(user, credential);
-            if (check) {
-                await updatePassword(user, newPassword);
-                dispatch(passUpdated(true));
-                setTimeout(() => {
-                    dispatch(passUpdated(false));
-                }, 10000);
-            }
-        } catch (e) {
-            console.log(e.message);
-        }
+    const changePassword = async (currentPassword, newPassword, reset) => {
+        const user = auth.currentUser;
+        const credential = EmailAuthProvider.credential(user.email, currentPassword);
+        reauthenticateWithCredential(user, credential)
+            .then(async () => {
+                // User re-authenticated.
+                try {
+                    await updatePassword(user, newPassword);
+                    dispatch(passUpdated(true));
+                    setTimeout(() => {
+                        dispatch(passUpdated(false));
+                    }, 20000);
+                    reset();
+                } catch (error) {
+                    setUpdatePassError(error.message);
+                }
+            })
+            .catch((error) => {
+                // An error ocurred
+                setUpdatePassError(error.message);
+            });
+        /*  */
     }
 
     // Log Out
@@ -98,6 +106,8 @@ const useFirebase = () => {
         loginLoading,
         regLoading,
         changePassword,
+        updatePassError,
+        setUpdatePassError
     }
 
 }

@@ -15,6 +15,7 @@ import Settings from "../Pages/Settings";
 import AccountSettings from "../Components/Private/settingsComponents/AccountSettings";
 import ChangePassword from "../Components/Private/settingsComponents/ChangePassword/ChangePassword";
 import NotificationSettings from "../Components/Private/settingsComponents/NotificationSettings";
+import NotFoundPage from "../Pages/NotFoundPage";
 
 function Layout() {
 
@@ -55,7 +56,7 @@ function Layout() {
             </Route>
 
 
-            <Route path='*' element={<p>Not found</p>} />
+            <Route path='*' element={<NotFoundPage />} />
         </Routes>
     );
 }
