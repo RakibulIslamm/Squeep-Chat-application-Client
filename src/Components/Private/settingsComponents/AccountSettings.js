@@ -3,11 +3,10 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { useGetUserQuery, useUpdateUserProfileMutation } from '../../../features/user/userApi';
+import { useGetUserQuery, useUpdateUserProfileMutation, useUpdateUserProfilePhotoMutation } from '../../../features/user/userApi';
 import ProfileImageUploading from '../../../utils/Loader/ProfileImageUploading';
 
 const AccountSettings = () => {
-    const [error, setError] = useState('')
     const [imgLink, setImgLink] = useState('');
     const [isUploading, setIsUploading] = useState(false);
     // const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +15,7 @@ const AccountSettings = () => {
     const { email } = useSelector(state => state.auth.user) || {};
     const { data: user, refetch } = useGetUserQuery(email);
     const [updateUserProfile, { isLoading, isError, isSuccess }] = useUpdateUserProfileMutation()
+    const [updateUserProfilePhoto, { isLoading: updatePhotoLoading, isError: updatePhotoError, isSuccess: photoUpdated }] = useUpdateUserProfilePhotoMutation()
 
     // Image compress function start>>
     const handleCompressedUpload = (image) => {
@@ -46,7 +46,7 @@ const AccountSettings = () => {
                     setImgLink(data?.data?.display_url);
                 }
                 catch (err) {
-                    setError(err);
+                    console.log(err);
                 }
                 finally {
                     setIsUploading(false)
@@ -89,10 +89,10 @@ const AccountSettings = () => {
     // Get base64 function end<<
 
     useEffect(() => {
-        if (isSuccess) {
+        if (isSuccess || photoUpdated) {
             refetch();
         }
-    }, [refetch, isSuccess])
+    }, [refetch, isSuccess, photoUpdated])
 
     const onSubmit = data => {
         const bio = data.bio === undefined ? user?.bio ? user?.bio : '' : data.bio;
@@ -100,6 +100,17 @@ const AccountSettings = () => {
         console.log(updatedData);
         updateUserProfile({ id: user._id, data: updatedData });
     };
+
+    const handleUpdatePhoto = (e) => {
+        if (!imgLink) {
+            return;
+        }
+        const img = { img: imgLink };
+        updateUserProfilePhoto({ id: user?._id, data: img });
+        setImgLink('');
+    }
+
+    console.log(user);
 
 
     return (
@@ -131,14 +142,20 @@ const AccountSettings = () => {
                 </div>
                 <div className='flex items-center gap-4'>
                     <button className='px-5 py-2 border border-gray-600 rounded-lg text-gray-700 bg-yellow disabled:bg-gray-600' type="submit" disabled={!isEdit || isLoading}>{isLoading ? 'Loading...' : 'Update Profile'}</button>
-                    {!isEdit && <button onClick={() => setIsEdit(!isEdit)} className='rounded-lg text-gray-300 underline' type="submit">Edit Profile</button>}
+                    {!isEdit && <button onClick={() => setIsEdit(!isEdit)} className='rounded-lg text-gray-300 underline' type="submit">Edit info</button>}
                     {isEdit && <button onClick={() => setIsEdit(!isEdit)} className='px-5 py-2 border border-gray-600 rounded-lg text-gray-300 hover:bg-primary' type="submit">Cancel</button>}
                 </div>
             </form>
             <div className='w-1/3 space-y-3'>
                 <h3 className='text-xl font-semibold text-gray-300'>Update Profile image</h3>
+                {photoUpdated && <div role="alert" className="rounded border-l-4 border-green bg-lime-200 px-4 py-2">
+                    <strong className="block font-medium text-primary"> Profile photo updated successfully </strong>
+                </div>}
+                {updatePhotoError && <div role="alert" className="rounded border-l-4 border-red-500 bg-red-50 px-4 py-2">
+                    <strong className="block font-medium text-red-700">{'Something went wrong'}</strong>
+                </div>}
                 <div className='w-24 h-24 relative'>
-                    <img className='w-full h-full rounded-full object-cover' src={imgLink || 'https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg'} alt="" />
+                    <img className='w-full h-full rounded-full object-cover' src={imgLink || user?.img || 'https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg'} alt="" />
                     {isUploading && <div className='opacity-80 absolute top-0 left-0'>
                         <ProfileImageUploading />
                         <p className=' absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs text-white'>uploading...</p>
@@ -147,7 +164,7 @@ const AccountSettings = () => {
                 <div>
                     <input onChange={handleOnChange} type="file" accept='image/*' />
                     <br />
-                    <button className='px-4 py-1 border border-gray-600 rounded-lg text-gray-700 bg-yellow disabled:bg-gray-600 mt-2' disabled={!imgLink || isUploading} type="submit">Save</button>
+                    <button onClick={handleUpdatePhoto} className='px-4 py-1 border border-gray-600 rounded-lg text-gray-700 bg-yellow disabled:bg-gray-600 mt-2' disabled={!imgLink || isUploading || updatePhotoLoading} type="submit">{updatePhotoLoading ? 'Loading' : 'Save'}</button>
                 </div>
             </div>
         </div>

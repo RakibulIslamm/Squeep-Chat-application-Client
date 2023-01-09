@@ -22,8 +22,15 @@ const userApi = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: data
             })
-        })
+        }),
+        updateUserProfilePhoto: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/update-profile-photo/${id}`,
+                method: 'POST',
+                body: data
+            })
+        }),
     })
 })
 
-export const { useAddUserMutation, useGetAllUsersQuery, useGetUserQuery, useUpdateUserProfileMutation } = userApi;
+export const { useAddUserMutation, useGetAllUsersQuery, useGetUserQuery, useUpdateUserProfileMutation, useUpdateUserProfilePhotoMutation } = userApi;

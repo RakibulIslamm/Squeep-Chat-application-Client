@@ -11,9 +11,7 @@ const Login = () => {
     const [showPass, setShowPass] = useState(false);
     const { login, loginLoading } = useFirebase();
     const error = useSelector(state => state.auth.authLogError);
-    const { user } = useSelector(state => state.auth);
     const dispatch = useDispatch();
-    console.log(error);
 
 
 

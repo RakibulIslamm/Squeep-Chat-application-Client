@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, getAuth, signOut, EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -61,7 +60,7 @@ const useFirebase = () => {
     }
 
     // Change password
-    const changePassword = async (currentPassword, newPassword, reset) => {
+    const changePassword = (currentPassword, newPassword, reset) => {
         const user = auth.currentUser;
         const credential = EmailAuthProvider.credential(user.email, currentPassword);
         reauthenticateWithCredential(user, credential)
