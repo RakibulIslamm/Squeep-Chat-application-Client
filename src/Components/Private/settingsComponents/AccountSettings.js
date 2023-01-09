@@ -1,7 +1,9 @@
 import Compressor from 'compressorjs';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import { useGetUserQuery, useUpdateUserProfileMutation } from '../../../features/user/userApi';
 import ProfileImageUploading from '../../../utils/Loader/ProfileImageUploading';
 
 const AccountSettings = () => {
@@ -10,7 +12,10 @@ const AccountSettings = () => {
     const [isUploading, setIsUploading] = useState(false);
     // const [isLoading, setIsLoading] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { email } = useSelector(state => state.auth.user) || {};
+    const { data: user, refetch } = useGetUserQuery(email);
+    const [updateUserProfile, { isLoading, isError, isSuccess }] = useUpdateUserProfileMutation()
 
     // Image compress function start>>
     const handleCompressedUpload = (image) => {
@@ -83,34 +88,49 @@ const AccountSettings = () => {
     };
     // Get base64 function end<<
 
-    const onSubmit = data => console.log(data);
+    useEffect(() => {
+        if (isSuccess) {
+            refetch();
+        }
+    }, [refetch, isSuccess])
+
+    const onSubmit = data => {
+        const bio = data.bio === undefined ? user?.bio ? user?.bio : '' : data.bio;
+        const updatedData = { name: data.name ? data?.name : user?.name, bio: bio }
+        console.log(updatedData);
+        updateUserProfile({ id: user._id, data: updatedData });
+    };
 
 
     return (
         <div className='py-3 flex items-start gap-10'>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 w-2/3">
+                {isSuccess && <div role="alert" className="rounded border-l-4 border-green bg-lime-200 px-4 py-2">
+                    <strong className="block font-medium text-primary"> Profile updated successfully </strong>
+                </div>}
+                {isError && <div role="alert" className="rounded border-l-4 border-red-500 bg-red-50 px-4 py-2">
+                    <strong className="block font-medium text-red-700">{'Something went wrong'}</strong>
+                </div>}
                 <div className='flex items-center gap-5'>
                     <div className='w-2/4'>
-                        <input className='px-3 py-2 w-full border border-gray-600 focus:border-gray-400 disabled:bg-gray-700 outline-none rounded-lg bg-primary text-gray-300' defaultValue="Name" {...register("name", { required: true })} disabled={!isEdit} />
+                        <input className='px-3 py-2 w-full border border-gray-600 focus:border-gray-400 disabled:bg-gray-700 outline-none rounded-lg bg-primary text-gray-300' defaultValue={user?.name} {...register("name")} disabled={!isEdit} />
                         {errors.name && <span>This field is required</span>}
                     </div>
                     <div className='w-2/4'>
-                        <input className='px-3 py-2 w-full border border-gray-600 outline-none rounded-lg bg-primary disabled:bg-gray-700 text-gray-300' defaultValue='username' {...register("username")} disabled />
-                        {errors.username && <span>This field is required</span>}
+                        <input className='px-3 py-2 w-full border border-gray-600 outline-none rounded-lg bg-primary disabled:bg-gray-700 text-gray-300' defaultValue={user?.username} disabled />
                     </div>
                 </div>
 
                 <div className='w-full'>
-                    <input className='px-3 py-2 w-full border border-gray-600 outline-none rounded-lg bg-primary disabled:bg-gray-700 text-gray-300' defaultValue="email@gmail.com" {...register("email")} disabled />
-                    {errors.email && <span>This field is required</span>}
+                    <input className='px-3 py-2 w-full border border-gray-600 outline-none rounded-lg bg-primary disabled:bg-gray-700 text-gray-300' defaultValue={user?.email} disabled />
                 </div>
 
                 <div className='w-full'>
-                    <textarea className='px-3 py-2 w-full min-h-[200px] border border-gray-600 disabled:bg-gray-700 focus:border-gray-400 outline-none rounded-lg bg-primary text-gray-300' defaultValue='Bio' {...register("bio")} placeholder='Bio' disabled={!isEdit} />
+                    <textarea className='px-3 py-2 w-full min-h-[200px] border border-gray-600 disabled:bg-gray-700 focus:border-gray-400 outline-none rounded-lg bg-primary text-gray-300' defaultValue={user?.bio ? user?.bio : ''} {...register("bio")} placeholder='Bio' disabled={!isEdit} />
                     {errors.bio && <span>This field is required</span>}
                 </div>
                 <div className='flex items-center gap-4'>
-                    <button className='px-5 py-2 border border-gray-600 rounded-lg text-gray-700 bg-yellow disabled:bg-gray-600' type="submit" disabled={!isEdit}>Update Profile</button>
+                    <button className='px-5 py-2 border border-gray-600 rounded-lg text-gray-700 bg-yellow disabled:bg-gray-600' type="submit" disabled={!isEdit || isLoading}>{isLoading ? 'Loading...' : 'Update Profile'}</button>
                     {!isEdit && <button onClick={() => setIsEdit(!isEdit)} className='rounded-lg text-gray-300 underline' type="submit">Edit Profile</button>}
                     {isEdit && <button onClick={() => setIsEdit(!isEdit)} className='px-5 py-2 border border-gray-600 rounded-lg text-gray-300 hover:bg-primary' type="submit">Cancel</button>}
                 </div>
