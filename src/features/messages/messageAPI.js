@@ -39,7 +39,7 @@ export const messageAPI = apiSlice.injectEndpoints({
                 method: "POST",
                 body: data
             })
-        })
+        }),
     })
 })
 

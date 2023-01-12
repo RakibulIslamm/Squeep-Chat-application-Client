@@ -47,8 +47,9 @@ export const conversationsAPI = apiSlice.injectEndpoints({
 
         getConversations: builder.query({
             query: (email) => `/conversations?email=${email}`,
-            onCacheEntryAdded(args, { cacheDataLoaded, updateCachedData, cacheEntryRemoved }) {
-                socket.on("updateConversation", ({ data, id }) => {
+            async onCacheEntryAdded(args, { cacheDataLoaded, updateCachedData, cacheEntryRemoved }) {
+                socket.on("updateConversation", async ({ data, id }) => {
+                    await cacheDataLoaded;
                     updateCachedData(draft => {
                         for (const c of draft) {
                             if (c._id === id) {
@@ -64,15 +65,19 @@ export const conversationsAPI = apiSlice.injectEndpoints({
                     })
                 });
                 socket.on('message-notification-update', data => {
+                    // console.log(data);
                     if (data.result.modifiedCount) {
                         updateCachedData(draft => {
-                            const conversation = draft.find(c => c?._id === data.id);
-                            if (conversation._id === data.id) {
-                                conversation.unseenMessages = 0;
+                            for (const conversation of draft) {
+                                if (conversation._id === data.id) {
+                                    conversation.unseenMessages = 0;
+                                }
                             }
                         })
                     }
-                })
+                });
+                await cacheEntryRemoved;
+                socket.close();
             }
         }),
 
@@ -81,7 +86,20 @@ export const conversationsAPI = apiSlice.injectEndpoints({
         }),
 
         getSingleConversation: builder.query({
-            query: (id) => `/conversation/${id}`
+            query: (id) => `/conversation/${id}`,
+            async onCacheEntryAdded(args, { cacheDataLoaded, updateCachedData, cacheEntryRemoved }) {
+                socket.on("updateConversation", async ({ data, id }) => {
+                    await cacheDataLoaded;
+                    updateCachedData(draft => {
+                        draft.lastMessage = data.messageText;
+                        draft.sender = data.email;
+                        draft.timestamp = data.timestamp;
+                        draft.unseenMessages += 1
+                    })
+                });
+                await cacheEntryRemoved;
+                socket.close();
+            }
         }),
 
         changeConversationStatus: builder.mutation({

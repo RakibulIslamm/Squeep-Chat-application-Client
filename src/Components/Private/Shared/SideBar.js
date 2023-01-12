@@ -11,13 +11,13 @@ import { useNavigate } from 'react-router-dom'
 
 const SideBar = () => {
     const toggle = useSelector(state => state.toggle.sidebarToggle)
-    // const { email } = useSelector(state => state.auth.user)
+    const { email } = useSelector(state => state.auth.user)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { logOut } = useFirebase();
 
     const handleLogOut = () => {
-        logOut(navigate);
+        logOut(navigate, email);
     }
 
     return (

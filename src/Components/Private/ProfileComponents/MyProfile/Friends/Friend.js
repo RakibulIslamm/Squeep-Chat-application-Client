@@ -10,7 +10,7 @@ const Friend = ({ friend }) => {
         <div className='p-3 w-full rounded-xl border border-secondary flex items-center justify-between'>
             <div className='flex items-center gap-3'>
                 <div className='w-[65px] h-[65px] flex items-center'>
-                    <img className='rounded-xl' src={user?.img || "https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
+                    <img className='rounded-xl w-full h-full object-cover' src={user?.img || "https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
                 </div>
                 <div>
                     <p className='font-normal text-white'>{user?.name}</p>

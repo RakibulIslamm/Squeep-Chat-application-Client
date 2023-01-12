@@ -4,7 +4,6 @@ import Conversations from "../Components/Private/InboxComponents/Conversations/C
 
 
 const Inbox = () => {
-
     return (
         <div className='w-full h-full flex justify-between'>
             <Conversations />

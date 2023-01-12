@@ -53,7 +53,7 @@ const SingleFriend = ({ user }) => {
         <div className='flex items-center justify-between'>
             <div className='flex items-center gap-2'>
                 <div className='w-[30px] h-[30px] flex items-center'>
-                    <img className='rounded-full w-full' src={user?.img || "https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
+                    <img className='rounded-full w-full h-full object-cover' src={user?.img || "https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
                 </div>
                 <p className='font-normal text-white'>{user?.name}</p>
             </div>

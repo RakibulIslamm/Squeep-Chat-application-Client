@@ -38,7 +38,7 @@ const AccountSettings = () => {
                 formData.append('image', str);
 
                 try {
-                    const res = await fetch(`https://api.imgbb.com/1/upload?key=e911b7196eed8bf0e10bfe59de30c793`, {
+                    const res = await fetch(`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_IMGBB_API}`, {
                         method: "POST",
                         body: formData
                     });
@@ -97,8 +97,9 @@ const AccountSettings = () => {
     const onSubmit = data => {
         const bio = data.bio === undefined ? user?.bio ? user?.bio : '' : data.bio;
         const updatedData = { name: data.name ? data?.name : user?.name, bio: bio }
-        console.log(updatedData);
+        // console.log(updatedData);
         updateUserProfile({ id: user._id, data: updatedData });
+        setIsEdit(false);
     };
 
     const handleUpdatePhoto = (e) => {
@@ -110,7 +111,7 @@ const AccountSettings = () => {
         setImgLink('');
     }
 
-    console.log(user);
+    // console.log(user);
 
 
     return (

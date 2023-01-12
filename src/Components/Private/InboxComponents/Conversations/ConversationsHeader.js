@@ -38,7 +38,7 @@ const ConversationsHeader = ({ allConversations }) => {
     const handleSearch = debounceHandler(doSearch, 500);
     // End De bounce
 
-    const { data: conversations, isLoading, isError, isFetching } = useGetSearchedConversationQuery({ text: searchText, email });
+    const { data: conversations, isLoading, isError, isFetching } = useGetSearchedConversationQuery({ text: searchText, email }) || {};
     // console.log(allConversations);
 
     let content = null;

@@ -17,14 +17,14 @@ const SingleConversation = ({ conversation }) => {
                 <img className='rounded-full w-full' src="https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg" alt="" />
                 <div className={`absolute w-3 h-3 rounded-full ${allactiveUsers.includes(participant?.email) ? 'bg-green' : 'bg-gray-500'} bottom-1 right-1 border-[1px] border-secondary`}></div>
             </div>
-            <div className='w-full'>
+            <div>
                 <div className='flex justify-between items-center gap-2'>
-                    <p className='font-bold sm:text-sm text-[#9BA2B0] line-clamp-1'>{participant?.name}</p>
+                    <p className='font-bold sm:text-sm text-[#9BA2B0] line-clamp-1 break-all'>{participant?.name}</p>
                     <p className='text-xs text-[#9BA2B0]'>{timestamp ? moment(timestamp).fromNow() : ''}</p>
                 </div>
                 <div className='flex justify-between items-center gap-2'>
-                    <p className={`text-sm  ${sender !== email && unseenMessages > 0 ? 'text-white font-semibold' : 'text-[#9BA2B0]'} line-clamp-1`}>{lastMessage ? lastMessage : <span>You are now connected to message each other</span>}</p>
-                    {unseenMessages > 0 && sender !== email && <span className='flex justify-center items-center w-6 h-5 bg-yellow rounded-full text-xs'>{sender !== email && unseenMessages <= 9 ? unseenMessages : '9+'}</span>}
+                    <p className={`text-sm break-all  ${sender !== email && unseenMessages > 0 ? 'text-white font-semibold' : 'text-[#9BA2B0]'} line-clamp-1`}>{lastMessage ? lastMessage : <span>You are now connected to message each other</span>}</p>
+                    {unseenMessages > 0 && sender !== email && <span className='flex justify-center items-center w-6 h-5 bg-yellow rounded-full text-xs px-1'>{sender !== email && unseenMessages <= 9 ? unseenMessages : '9+'}</span>}
                 </div>
             </div>
         </Link>

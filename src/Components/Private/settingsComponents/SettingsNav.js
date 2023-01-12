@@ -1,8 +1,13 @@
 import React from 'react';
 import { RxAvatar } from "react-icons/rx";
+import { useSelector } from 'react-redux';
+import { useGetUserQuery } from '../../../features/user/userApi';
 import SettingsCustomLink from '../../../utils/SettingsCustomLink';
 
 const SettingsNav = () => {
+    const { email } = useSelector(state => state.auth.user);
+    const { data } = useGetUserQuery(email);
+    console.log(data);
     return (
         <div className='flex items-center justify-between'>
             <div className='py-2 flex items-center justify-between gap-5 text-white'>
@@ -12,8 +17,8 @@ const SettingsNav = () => {
                 <SettingsCustomLink to='/settings/additional-settings'>Additional Settings</SettingsCustomLink>
             </div>
             <div className='flex items-center gap-2'>
-                <h3 className='text-lg font-medium text-gray-300'>Rakibul Islam</h3>
-                <RxAvatar className='text-4xl text-gray-300' />
+                <h3 className='text-lg font-medium text-gray-300'>{data?.name}</h3>
+                <img className='w-10 h-10 rounded-full object-cover' src={data?.img || 'https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg'} alt="" />
             </div>
         </div>
     );

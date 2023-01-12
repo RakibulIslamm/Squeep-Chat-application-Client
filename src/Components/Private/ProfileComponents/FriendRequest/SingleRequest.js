@@ -38,7 +38,7 @@ const SingleRequest = ({ friend }) => {
         <div className='border-b border-primary py-4 last:border-0'>
             <div className='flex gap-2'>
                 <div className='w-[55px] h-[55px] flex items-center'>
-                    <img className='rounded-full w-full' src={user?.img || "https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
+                    <img className='rounded-full w-full h-full object-cover' src={user?.img || "https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
                 </div>
                 <div>
                     <div className="w-full flex items-center gap-5 justify-between">

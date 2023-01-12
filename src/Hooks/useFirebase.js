@@ -48,7 +48,7 @@ const useFirebase = () => {
             const result = await signInWithEmailAndPassword(auth, email, password)
             const user = result.user;
             const currentUser = { name: user.displayName, email: user.email, img: user.photoURL }
-            console.log(currentUser);
+            // console.log(currentUser);
         }
         catch (err) {
             dispatch(authLogError(err.message));
@@ -89,7 +89,7 @@ const useFirebase = () => {
         signOut(auth)
             .then(() => {
                 dispatch(logOutUser());
-                socket.disconnect()
+                socket.disconnect();
                 navigate('/login');
             })
             .catch((error) => {

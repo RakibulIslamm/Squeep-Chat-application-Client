@@ -23,9 +23,22 @@ const Messages = () => {
 
     const handleMessageBodyClick = () => {
         if (conversation.sender !== email) {
+            // console.log(email, conversation.sender);
             socket.emit('message-notification', id);
         }
     }
+
+    // apiSlice.util.updateQueryData('getConversations', email, (draft) => {
+    //     socket.on('message-notification-update', data => {
+    //         console.log(data);
+    //         if (data.result.modifiedCount) {
+    //             const conversation = draft.find(c => c?._id === data.id);
+    //             if (conversation._id === data.id) {
+    //                 conversation.unseenMessages = 0;
+    //             }
+    //         }
+    //     })
+    // })
 
     if (isLoading || isFetching) {
         content = <MessagesLoader />
