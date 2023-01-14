@@ -25,6 +25,7 @@ export const conversationsAPI = apiSlice.injectEndpoints({
                                 conv.lastMessage = messageData.messageText;
                                 conv.sender = messageData.email;
                                 conv.timestamp = messageData.timestamp;
+                                conv.img = messageData.img;
                                 return;
                             }
                         });
@@ -56,6 +57,7 @@ export const conversationsAPI = apiSlice.injectEndpoints({
                                 c.lastMessage = data.messageText;
                                 c.sender = data.email;
                                 c.timestamp = data.timestamp;
+                                c.img = data.img;
                                 c.unseenMessages += 1
                             }
                         }

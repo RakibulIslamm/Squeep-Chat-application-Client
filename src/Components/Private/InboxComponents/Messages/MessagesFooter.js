@@ -34,6 +34,7 @@ const MessagesFooter = () => {
         if (!messageText && !imgLink) {
             return;
         }
+
         const data = {
             conversationId: id,
             sender: {
@@ -48,23 +49,30 @@ const MessagesFooter = () => {
             img: imgLink,
             timestamp: new Date().getTime(),
         }
-        dispatch(
-            apiSlice.util.updateQueryData('getMessages', { conversationId: id, email }, draft => {
-                const message = {
-                    _id: parseInt(draft.length) + 1,
-                    ...data
-                }
-                draft.unshift(message);
-            })
-        )
-        const messageData = { messageText, email, timestamp: new Date().getTime(), unseenMessages: conversation.unseenMessages };
-        updateConversation({ messageData, id, email });
-        // socket.emit("getMessage", data);
-        sendMessage(data);
-        setImgLink('');
-        setBase64Img('');
-        e.target.reset();
-        e.target.message.focus();
+        try {
+            dispatch(
+                apiSlice.util.updateQueryData('getMessages', { conversationId: id, email }, draft => {
+                    const message = {
+                        _id: parseInt(draft.length) + 1,
+                        ...data
+                    }
+                    draft.unshift(message);
+                })
+            )
+            const messageData = { messageText, email, timestamp: new Date().getTime(), unseenMessages: conversation.unseenMessages, img: imgLink ? true : false };
+            updateConversation({ messageData, id, email });
+            // socket.emit("getMessage", data);
+            sendMessage(data);
+        }
+        catch (err) {
+
+        }
+        finally {
+            setImgLink('');
+            setBase64Img('');
+            e.target.reset();
+            e.target.message.focus();
+        }
     }
 
     // Image compress function start>>
@@ -143,16 +151,16 @@ const MessagesFooter = () => {
 
     // console.log(base64Img);
     useEffect(() => {
-        if (base64Img) {
+        if (base64Img && !uploading) {
             messageRef.current.focus();
         }
-    }, [base64Img])
+    }, [base64Img, uploading])
 
 
     return (
         <form onSubmit={handleSendMessage} className='w-full xxs:h-[50px] px-6 py-4 xxs:px-3 border-l border-r border-t border-secondary relative'>
             {base64Img && <div className='relative inline-block w-24 h-24 ml-5 mb-2'>
-                <button onClick={() => { setBase64Img(''); setImgLink('') }} className='text-xl text-primary hover:text-red-500 absolute right-1 top-1'>
+                <button type='button' onClick={() => { setBase64Img(''); setImgLink('') }} className='text-xl text-primary hover:text-red-500 absolute right-1 top-1'>
                     <RxCrossCircled className='' />
                 </button>
                 <img className='w-full h-full object-cover rounded' src={base64Img} alt="" />
@@ -165,7 +173,7 @@ const MessagesFooter = () => {
                     <BiArrowBack className='text-primary xxs:text-yellow text-2xl xxs:text-xl' />
                 </button>
                 <div className='w-full relative'>
-                    <input className='w-full pl-4 xxs:pl-3 pr-20 xxs:pr-16 py-2 xxs:py-1 rounded-full bg-[#333f53] text-white outline-none border border-[#8b99b3] xxs:text-sm xxs:placeholder:text-xs' type="text" name='message' ref={messageRef} placeholder='Type Your Message...' />
+                    <input className='w-full pl-4 xxs:pl-3 pr-20 xxs:pr-16 py-2 xxs:py-1 rounded-full bg-[#333f53] text-white outline-none border border-[#8b99b3] xxs:text-sm xxs:placeholder:text-xs' type="text" name='message' ref={messageRef} placeholder='Type Your Message...' disabled={uploading} />
                     <div className='absolute top-1/2 right-3 transform -translate-y-1/2 flex items-center gap-2'>
                         <label className='relative'>
                             <BiImageAdd className='absolute right-0 top-1/2 transform -translate-y-1/2 text-white text-2xl xxs:text-xl cursor-pointer' />
