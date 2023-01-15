@@ -127,7 +127,7 @@ const MessagesFooter = () => {
         handleCompressedUpload(file);
     }
 
-    console.log(imgLink)
+    // console.log(imgLink)
 
     // Get base64 function start>>
     const getBase64 = file => {

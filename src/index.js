@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
+import 'react-18-image-lightbox/style.css';
 
 const container = document.getElementById('root');
 const root = createRoot(container);

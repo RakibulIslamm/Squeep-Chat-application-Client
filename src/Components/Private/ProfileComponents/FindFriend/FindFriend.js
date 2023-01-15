@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { useGetAllUsersQuery } from '../../../../features/user/userApi';
 import SingleFriend from './SingleFriend';
 
@@ -21,11 +22,12 @@ const FindFriend = () => {
         content = users.map(user => <SingleFriend key={user._id} user={user} />)
     }
     return (
-        <div className='w-[400px] h-full bg-secondary'>
-            <div className='w-full h-[50px] flex items-center px-4'>
+        <div className='w-[330px] h-full bg-secondary'>
+            <div className='w-full h-[50px] flex items-center justify-between px-4'>
                 <h2 className='text-xl font-semibold text-white'>Find People</h2>
+                <Link className='text-gray-300 mr-5' to='/find-friends'>More People</Link>
             </div>
-            <div className='space-y-4 p-4 h-[calc(100%_-_50px)] w-full overflow-auto scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
+            <div className='space-y-4 px-8 mt-2 h-[calc(100%_-_50px)] w-full overflow-auto scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
                 {content}
             </div>
         </div>

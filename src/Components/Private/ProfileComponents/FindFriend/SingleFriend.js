@@ -50,14 +50,14 @@ const SingleFriend = ({ user }) => {
 
 
     return (
-        <div className='flex items-center justify-between'>
-            <div className='flex items-center gap-2'>
-                <div className='w-[30px] h-[30px] flex items-center'>
-                    <img className='rounded-full w-full h-full object-cover' src={user?.img || "https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
-                </div>
-                <p className='font-normal text-white'>{user?.name}</p>
+        <div className='flex items-center gap-4'>
+            <div className='w-[60px] h-[60px] flex items-center'>
+                <img className='rounded-full w-full h-full object-cover' src={user?.img || "https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
             </div>
-            <button disabled={addedUsers?.includes(user?.email) || disabled || isExist?.includes(user?.email)} onClick={handleAddFriend} className='px-3 py-[0px] bg-yellow text-lightBlack rounded-full text-sm disabled:bg-gray-400'>{addedUsers?.includes(user?.email) || isExist?.includes(user?.email) ? <span className='flex items-center gap-1'><RiUserShared2Line /> Requested</span> : <span className='flex items-center gap-1'><AiOutlineUserAdd />Add Friend</span>}</button>
+            <div className='flex flex-col items-start gap-1'>
+                <p className='font-normal text-lg text-white line-clamp-1'>{user?.name}</p>
+                <button disabled={addedUsers?.includes(user?.email) || disabled || isExist?.includes(user?.email)} onClick={handleAddFriend} className='px-2 py-[1px] bg-yellow text-lightBlack rounded-full text-sm disabled:bg-gray-400'>{addedUsers?.includes(user?.email) || isExist?.includes(user?.email) ? <span className='flex items-center gap-1'><RiUserShared2Line /> Requested</span> : <span className='flex items-center gap-1'><AiOutlineUserAdd />Add Friend</span>}</button>
+            </div>
         </div>
     );
 };

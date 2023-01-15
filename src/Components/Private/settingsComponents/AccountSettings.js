@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useGetUserQuery, useUpdateUserProfileMutation, useUpdateUserProfilePhotoMutation } from '../../../features/user/userApi';
+import LightBox from '../../../utils/LightBox/LightBox';
 import ProfileImageUploading from '../../../utils/Loader/ProfileImageUploading';
 
 const AccountSettings = () => {

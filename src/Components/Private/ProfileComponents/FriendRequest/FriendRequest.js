@@ -28,7 +28,7 @@ const FriendRequest = () => {
     }
 
     return (
-        <div className='w-[400px] h-full bg-secondary'>
+        <div className='w-[330px] h-full bg-secondary'>
             <div className='w-full h-[50px] flex items-center px-4'>
                 <h2 className='text-xl font-semibold text-white'>Friend Request</h2>
             </div>
