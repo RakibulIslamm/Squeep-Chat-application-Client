@@ -24,7 +24,7 @@ const FindFriend = () => {
     return (
         <div className='w-[330px] h-full bg-secondary'>
             <div className='w-full h-[50px] flex items-center justify-between px-4'>
-                <h2 className='text-xl font-semibold text-white'>Find People</h2>
+                <h2 className='text-xl font-semibold text-white'>New People</h2>
                 <Link className='text-gray-300 mr-5' to='/find-people'>More People</Link>
             </div>
             <div className='space-y-4 px-8 mt-2 h-[calc(100%_-_50px)] w-full overflow-auto scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>

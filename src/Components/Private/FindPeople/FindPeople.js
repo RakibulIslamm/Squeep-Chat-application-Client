@@ -3,6 +3,7 @@ import { IoSearchOutline } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
 import SinglePerson from './SinglePerson';
 import { useFindPeopleQuery } from '../../../features/user/userApi';
+import SingleRequest from './FriendRequest/SingleRequest';
 
 const FindPeople = () => {
 
@@ -40,10 +41,12 @@ const FindPeople = () => {
                         {content}
                     </div>
                 </div>
-                <div className='w-1/3 h-full bg-secondary border border-gray-600 p-4'>
-                    <div>
-
-                    </div>
+                <div className='w-1/3 h-full bg-secondary border border-gray-600 p-4 overflow-hidden overflow-y-auto space-y-3 scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg'>
+                    <SingleRequest />
+                    <SingleRequest />
+                    <SingleRequest />
+                    <SingleRequest />
+                    <SingleRequest />
                 </div>
             </div>
         </div>
