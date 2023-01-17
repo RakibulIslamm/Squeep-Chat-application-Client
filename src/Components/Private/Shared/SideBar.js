@@ -36,9 +36,9 @@ const SideBar = () => {
                     <BiMessageDetail className='text-2xl xs:text-xl' />
                     <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Messages</p>
                 </CustomLink>
-                <CustomLink title='Friends' to={'/friends'}>
+                <CustomLink title='Find People' to={'/find-people'}>
                     <IoPeopleOutline className='text-2xl xs:text-xl' />
-                    <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Friends</p>
+                    <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-10 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out`}>Find People</p>
                 </CustomLink>
                 <CustomLink title='Favorites' to={'/favorites'}>
                     <BiStar className='text-2xl xs:text-xl' />

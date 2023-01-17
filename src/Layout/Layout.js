@@ -16,6 +16,7 @@ import AccountSettings from "../Components/Private/settingsComponents/AccountSet
 import ChangePassword from "../Components/Private/settingsComponents/ChangePassword/ChangePassword";
 import NotificationSettings from "../Components/Private/settingsComponents/NotificationSettings";
 import NotFoundPage from "../Pages/NotFoundPage";
+import FindPeoplePage from "../Pages/FindPeoplePage";
 
 function Layout() {
 
@@ -53,6 +54,10 @@ function Layout() {
                     <Route path="change-password" element={<ChangePassword />} />
                     <Route path="notification-settings" element={<NotificationSettings />} />
                 </Route>
+            </Route>
+
+            <Route path="/find-people" element={<PrivateRoute><PrivateLayout /></PrivateRoute>}>
+                <Route path="/find-people" element={<FindPeoplePage />} />
             </Route>
 
 
