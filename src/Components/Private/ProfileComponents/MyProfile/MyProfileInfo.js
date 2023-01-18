@@ -1,14 +1,16 @@
 import React from 'react';
 import { MdOutlineAddPhotoAlternate } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { TiCamera } from 'react-icons/ti'
 
 const MyProfileInfo = ({ user }) => {
     const { name, username, img } = user || {};
     const navigate = useNavigate();
     return (
         <>
-            <div className='w-full h-[300px] bg-secondary rounded-b-xl'>
+            <div className='w-full h-[300px] bg-secondary rounded-b-xl relative'>
                 <img className='w-full h-full object-cover rounded-b-xl' src={"http://wallpapers.net/web/wallpapers/lamp-at-the-wall-hd-wallpaper/828x350.jpg"} alt="" />
+                <button className=' absolute right-6 bottom-4 px-5 py-1 bg-white bg-opacity-25 rounded-lg hover:bg-opacity-100 transition-all ease-in-out font-medium flex items-center gap-2'><TiCamera /> Edit cover photo</button>
             </div>
             <div className='w-[700px] mx-auto'>
                 <div className='relative -top-5 flex items-center justify-between'>

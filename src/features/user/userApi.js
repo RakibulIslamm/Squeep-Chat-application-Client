@@ -19,6 +19,9 @@ const userApi = apiSlice.injectEndpoints({
         getUser: builder.query({
             query: (email) => `/user?email=${email}`
         }),
+        getUserByUsername: builder.query({
+            query: (username) => `/profile?username=${username}`
+        }),
         updateUserProfile: builder.mutation({
             query: ({ id, data }) => ({
                 url: `/update-profile/${id}`,
@@ -36,4 +39,4 @@ const userApi = apiSlice.injectEndpoints({
     })
 })
 
-export const { useAddUserMutation, useGetUserQuery, useUpdateUserProfileMutation, useUpdateUserProfilePhotoMutation, useFindPeopleQuery, useNewPeopleQuery } = userApi;
+export const { useAddUserMutation, useGetUserQuery, useUpdateUserProfileMutation, useUpdateUserProfilePhotoMutation, useFindPeopleQuery, useNewPeopleQuery, useGetUserByUsernameQuery } = userApi;

@@ -17,6 +17,7 @@ import ChangePassword from "../Components/Private/settingsComponents/ChangePassw
 import NotificationSettings from "../Components/Private/settingsComponents/NotificationSettings";
 import NotFoundPage from "../Pages/NotFoundPage";
 import FindPeoplePage from "../Pages/FindPeoplePage";
+import UserProfile from "../Components/Private/UserProfile/UserProfile";
 
 function Layout() {
 
@@ -37,7 +38,7 @@ function Layout() {
                 </Route>
             </Route>
 
-            {/* Profile routes */}
+            {/* My Profile routes */}
             <Route path="/my-profile" element={<PrivateRoute><PrivateLayout /></PrivateRoute>}>
                 <Route path="/my-profile" element={<Profile />}>
                     <Route index element={<FindFriend />} />
@@ -45,6 +46,11 @@ function Layout() {
                     <Route path="friend-requests" element={<FriendRequest />} />
 
                 </Route>
+            </Route>
+
+            {/* User Profile routes */}
+            <Route path="/profile/:username" element={<PrivateRoute><PrivateLayout /></PrivateRoute>}>
+                <Route index element={<UserProfile />} />
             </Route>
 
             {/* settings route */}

@@ -15,9 +15,9 @@ const MyProfile = () => {
     let content = null;
     if (isLoading) {
         content = <>
-            <CoverImageLoader />
+            <CoverImageLoader height={300} />
             <div className='relative bottom-8'>
-                <ProfilePhotoLoader />
+                <ProfilePhotoLoader radius={50} left={240} cx={170} />
             </div>
         </>
     }
