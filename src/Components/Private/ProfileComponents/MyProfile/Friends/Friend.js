@@ -13,7 +13,7 @@ const Friend = ({ friend }) => {
                     <img className='rounded-xl w-full h-full object-cover' src={user?.img || "https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
                 </div>
                 <div>
-                    <p className='font-normal text-white'>{user?.name}</p>
+                    <Link to={`/profile/${user?.username}`} className='font-normal text-white block'>{user?.name}</Link>
                     <Link to={`/inbox/messages/${friend?.conversationId}`} className='px-3 py-[3px] bg-yellow text-lightBlack rounded-full text-sm disabled:bg-gray-400'>Message</Link>
                 </div>
             </div>

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useGetMyFriendsQuery, useGetRequestedFriendsQuery } from '../../../features/friends/friendsApi';
+import { useAddConversationMutation } from '../../../features/conversations/conversationsAPI';
+import { useGetMyFriendsQuery, useGetRequestedFriendsQuery, useSendFriendRequestMutation } from '../../../features/friends/friendsApi';
+import { useGetUserQuery } from '../../../features/user/userApi';
 
 const UserProfileInfo = ({ user }) => {
     const { email: myEmail } = useSelector(state => state.auth.user);
@@ -10,6 +12,46 @@ const UserProfileInfo = ({ user }) => {
     const isRequested = requestedUsers?.find(request => request?.friendship?.includes(user?.email));
     const isFriend = friends?.find(request => request?.friendship?.includes(user?.email));
     const navigate = useNavigate();
+
+
+    // Add friend
+    const [disabled, setDisabled] = useState(false);
+    const [addedUsers, setAddedUsers] = useState([]);
+    const { data: currentUserData } = useGetUserQuery(myEmail) || {};
+
+    const [addConversation] = useAddConversationMutation();
+    const [sendFriendRequest] = useSendFriendRequestMutation();
+
+    const handleAddFriend = async () => {
+        setDisabled(true);
+        setAddedUsers([...addedUsers, user?.email]);
+        try {
+            const { name, email, img, _id, username } = currentUserData;
+            const currentUser = { name, email, img, _id, username };
+            const data = {
+                participants: [email, user?.email],
+                users: [user, currentUserData],
+                sender: '',
+                lastMessage: '',
+                unseenMessages: 0,
+                timestamp: '',
+                isFriend: false
+            }
+            const result = await addConversation({ data, email }).unwrap();
+            if (result.insertedId) {
+                await sendFriendRequest({ currentUser, requestedPerson: user, conversationId: result.insertedId });
+            }
+        }
+        catch (err) {
+            console.log(err);
+            setAddedUsers(addedUsers.filter(e => e !== user?.email));
+        }
+        finally {
+            setDisabled(false);
+        }
+    }
+
+
 
     return (
         <>
@@ -28,13 +70,15 @@ const UserProfileInfo = ({ user }) => {
                         </div>
                     </div>
                     {(!isLoading && !reqLoading) && <div className='flex items-center gap-2'>
-                        {(!isRequested && !isFriend) && <button className='text-gray-300 px-5 py-1 border border-gray-500 rounded-md'>Add Friend</button>}
+                        {(!isRequested && !isFriend && !addedUsers.includes(user?.email)) && <button onClick={handleAddFriend} className='text-gray-300 px-5 py-1 border border-gray-500 rounded-md' disabled={disabled}>Add Friend</button>}
 
-                        {isFriend && <button onClick={() => navigate(`/inbox/messages/${isFriend?.conversationId}`)} className='text-primary px-5 py-1 bg-yellow rounded-md'>Message</button>}
+                        {(isFriend && user?.email !== myEmail) && <button onClick={() => navigate(`/inbox/messages/${isFriend?.conversationId}`)} className='text-primary px-5 py-1 bg-yellow rounded-md'>Message</button>}
 
-                        {(isFriend) && <button className='text-gray-300 px-5 py-1 border border-gray-500 rounded-md'>Friend</button>}
+                        {(isFriend && user?.email !== myEmail) && <button className='text-gray-300 px-5 py-1 border border-gray-500 rounded-md'>Friend</button>}
 
-                        {(isRequested) && <button className='text-gray-300 px-5 py-1 border border-gray-500 rounded-md'>Requested</button>}
+                        {(isRequested || addedUsers.includes(user?.email)) && <button className='text-gray-300 px-5 py-1 border border-gray-500 rounded-md'>Requested</button>}
+
+                        {(user?.email === myEmail) && <button onClick={() => navigate('/my-profile')} className='text-gray-300 px-5 py-1 border border-gray-500 rounded-md'>Your Profile</button>}
                     </div>}
                 </div>
             </div>

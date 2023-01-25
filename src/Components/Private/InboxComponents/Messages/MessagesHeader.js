@@ -5,7 +5,10 @@ import { useParams } from 'react-router-dom';
 import { useGetSingleConversationQuery } from '../../../../features/conversations/conversationsAPI';
 import { handleConversationInfo } from '../../../../features/toggle/toggleSlice'
 import MessageHeaderLoader from '../../../../utils/Loader/MessageHeaderLoader';
-const MessagesHeader = () => {
+
+
+
+const MessagesHeader = ({ callUser }) => {
     const conversationInfo = useSelector(state => state.toggle.conversationInfo);
     const { email } = useSelector(state => state.auth.user);
     const allactiveUsers = useSelector(state => state?.activeUsers?.activeUsers);
@@ -22,7 +25,7 @@ const MessagesHeader = () => {
     }
     else if (!isLoading && conversation) {
         content = <div className='w-full flex items-center gap-3 xxs:gap-1 py-4'>
-            <img className='rounded-full w-[35px] h-[35px] xxs:w-[25px] xxs:h-[25px]' src={"https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
+            <img className='rounded-full w-[35px] h-[35px] xxs:w-[25px] xxs:h-[25px]' src={participant?.img || "https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
             <div className='w-full'>
                 <div>
                     <p className='font-bold text-sm xxs:text-xs text-[#9BA2B0]'>{participant?.name}</p>
@@ -41,7 +44,7 @@ const MessagesHeader = () => {
             {content}
             <div className='flex items-center gap-4'>
                 <button><IoMdCall className='text-[30px] xxs:text-[22px] text-white rounded-full p-1 hover:bg-primary' /></button>
-                <button><IoMdVideocam className='text-[30px] xxs:text-[22px] text-white rounded-full p-1 hover:bg-primary' /></button>
+                <button onClick={callUser}><IoMdVideocam className='text-[30px] xxs:text-[22px] text-white rounded-full p-1 hover:bg-primary cursor-pointer' /></button>
                 <button onClick={() => dispatch(handleConversationInfo(true))}><IoMdInformationCircle className={`text-[30px] xxs:text-[22px] text-white rounded-full p-1 hover:bg-primary ${conversationInfo && 'bg-primary'}`} /></button>
             </div>
         </div>

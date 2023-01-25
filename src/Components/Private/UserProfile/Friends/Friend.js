@@ -23,7 +23,7 @@ const Friend = ({ friend, email }) => {
                     {(!isLoading && !reqLoading) && <>
                         {(isFriend && user?.email !== myEmail) && <p className='text-xs text-gray-400'>Friend</p>}
                         {user?.email === myEmail && <p className='text-xs text-gray-400'>Me</p>}
-                        {(isRequested && user?.email !== myEmail) && <p className='text-xs text-gray-400' disabled>Sent request</p>}
+                        {(isRequested && user?.email !== myEmail) && <p className='text-xs text-gray-400' disabled>Request sent</p>}
 
                         {(!isRequested && !isFriend && user?.email !== myEmail) && <button className='px-3 py-[1px] bg-yellow text-lightBlack rounded-full text-sm disabled:bg-gray-400 block'>Add Friend</button>}
                     </>}
