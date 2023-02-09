@@ -13,7 +13,14 @@ export const messageAPI = apiSlice.injectEndpoints({
                         updateCachedData(draft => {
                             // console.log(JSON.parse(JSON.stringify(draft)));
                             // console.log(data);
-                            if (conversationId === data.conversationId && email !== data?.sender?.email) {
+                            if (conversationId === data.conversationId && (data.message === 'Audio call' || data.message === 'Video call')) {
+                                const message = {
+                                    _id: parseInt(draft.length) + 1,
+                                    ...data
+                                }
+                                draft.unshift(message);
+                            }
+                            else if (conversationId === data.conversationId && email !== data?.sender?.email) {
                                 const message = {
                                     _id: parseInt(draft.length) + 1,
                                     ...data

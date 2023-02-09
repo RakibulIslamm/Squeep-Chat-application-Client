@@ -7,14 +7,17 @@ import apiSlice from '../../../../features/api/apiSlice';
 import { useGetSingleConversationQuery, useUpdateConversationMutation } from '../../../../features/conversations/conversationsAPI';
 import { useSendMessageMutation } from '../../../../features/messages/messageAPI';
 import Compressor from 'compressorjs';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RxCrossCircled } from 'react-icons/rx';
+import { useForm } from 'react-hook-form';
+import { socket } from '../../../../utils/Socket.io/socket';
 
 const MessagesFooter = () => {
+    const { register, handleSubmit, setFocus, watch, reset } = useForm();
     const [base64Img, setBase64Img] = useState('');
+    const [typing, setTyping] = useState('');
     const [imgLink, setImgLink] = useState('');
     const [uploading, setUploading] = useState(false);
-    const messageRef = useRef(null);
 
     const { name, email } = useSelector(state => state.auth.user);
     const { id } = useParams();
@@ -24,17 +27,19 @@ const MessagesFooter = () => {
     const [sendMessage] = useSendMessageMutation()
     const receiver = conversation?.users?.find(user => user.email !== email);
 
-    // console.log(conversation);
+    // socket.emit('typing', watch().message);
+
+
+
+    // console.log(typing);
 
     const dispatch = useDispatch();
-
-    const handleSendMessage = async (e) => {
-        e.preventDefault();
-        const messageText = e.target.message.value;
+    const onSubmit = async msg => {
+        console.log(msg);
+        const messageText = msg.message;
         if (!messageText && !imgLink) {
             return;
         }
-
         const data = {
             conversationId: id,
             sender: {
@@ -70,10 +75,13 @@ const MessagesFooter = () => {
         finally {
             setImgLink('');
             setBase64Img('');
-            e.target.reset();
-            e.target.message.focus();
+            setFocus("message");
+            reset();
         }
-    }
+
+
+
+    };
 
     // Image compress function start>>
     const handleCompressedUpload = (image) => {
@@ -152,13 +160,13 @@ const MessagesFooter = () => {
     // console.log(base64Img);
     useEffect(() => {
         if (base64Img && !uploading) {
-            messageRef.current.focus();
+            setFocus('message')
         }
-    }, [base64Img, uploading])
+    }, [base64Img, uploading, setFocus])
 
 
     return (
-        <form onSubmit={handleSendMessage} className='w-full xxs:h-[50px] px-6 py-4 xxs:px-3 border-l border-r border-t border-secondary relative'>
+        <form onSubmit={handleSubmit(onSubmit)} className='w-full px-6 py-4 xxs:px-3 border-l border-r border-t border-secondary relative'>
             {base64Img && <div className='relative inline-block w-24 h-24 ml-5 mb-2'>
                 <button type='button' onClick={() => { setBase64Img(''); setImgLink('') }} className='text-xl text-primary hover:text-red-500 absolute right-1 top-1'>
                     <RxCrossCircled className='' />
@@ -173,7 +181,7 @@ const MessagesFooter = () => {
                     <BiArrowBack className='text-primary xxs:text-yellow text-2xl xxs:text-xl' />
                 </button>
                 <div className='w-full relative'>
-                    <input className='w-full pl-4 xxs:pl-3 pr-20 xxs:pr-16 py-2 xxs:py-1 rounded-full bg-[#333f53] text-white outline-none border border-[#8b99b3] xxs:text-sm xxs:placeholder:text-xs' type="text" name='message' ref={messageRef} placeholder='Type Your Message...' disabled={uploading} />
+                    <input className='w-full pl-4 xxs:pl-3 pr-20 xxs:pr-16 py-2 xxs:py-1 rounded-full bg-[#333f53] text-white outline-none border border-[#8b99b3] xxs:text-sm xxs:placeholder:text-xs' type="text" {...register("message")} placeholder='Type Your Message...' disabled={uploading} />
                     <div className='absolute top-1/2 right-3 transform -translate-y-1/2 flex items-center gap-2'>
                         <label className='relative'>
                             <BiImageAdd className='absolute right-0 top-1/2 transform -translate-y-1/2 text-white text-2xl xxs:text-xl cursor-pointer' />

@@ -25,8 +25,8 @@ const Friends = () => {
 
 
     return (
-        <div className='w-[700px] mx-auto'>
-            <div className='w-full h-[50px] flex items-center justify-between border-b border-secondary'>
+        <div className='w-[700px] xs:w-full xxs:w-full mx-auto xxs:px-5 xs:px-5'>
+            <div className='w-full h-[50px] xxs:h-full xs:h-full flex items-center justify-between border-b border-secondary xxs:flex-wrap xs:flex-wrap gap-2 sm:pb-2 xs:pb-2 xxs:pb-2'>
                 <h2 className='text-xl font-semibold text-white'>My Friends</h2>
                 <div className='relative'>
                     <input className='px-3 py-1 rounded-md w-[300px] outline-none text-white bg-secondary' type="text" placeholder='Search friend...' />
@@ -35,7 +35,7 @@ const Friends = () => {
                     </button>
                 </div>
             </div>
-            <div className='py-4 w-full grid grid-cols-2 gap-3'>
+            <div className='py-4 w-full grid grid-cols-2 xxs:grid-cols-1 xs:grid-cols-1 gap-3'>
                 {content}
             </div>
         </div>

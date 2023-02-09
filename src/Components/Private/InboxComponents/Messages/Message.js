@@ -1,12 +1,13 @@
 import moment from 'moment/moment';
 import React, { useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
+import { IoMdCall, IoMdVideocam } from 'react-icons/io';
 import { RiShareForwardLine } from 'react-icons/ri';
 import LightBox from '../../../../utils/LightBox/LightBox';
 
 const Message = ({ email, message }) => {
     const [showDate, setShowDate] = useState(false)
-    const { message: text, timestamp, sender, img } = message || {};
+    const { message: text, timestamp, sender, img, callTime } = message || {};
     const justify = email !== sender.email ? 'justify-end' : 'justify-start';
 
     return (
@@ -21,7 +22,25 @@ const Message = ({ email, message }) => {
                         </div>
                         <div>
                             {img && <LightBox image={img} email={email} sender={sender} text={text} />}
-                            {text && <p className={`px-4 xxs:px-2 py-2 xxs:py-1 xxs:text-sm ${email === sender.email ? 'bg-yellow text-lightBlack rounded-br-none border border-[#5E6778] mr-8 xxs:mr-6' : 'bg-secondary text-white rounded-bl-none ml-8 xxs:ml-6'} rounded-lg break-words ${img && 'rounded-t-none w-[250px]'} max-w-[300px]`} onClick={() => setShowDate(!showDate)}>{text}</p>}
+                            {text && <div className={`px-4 xxs:px-2 py-2 xxs:py-1 xxs:text-sm ${email === sender.email ? 'bg-yellow text-lightBlack rounded-br-none border border-[#5E6778] mr-8 xxs:mr-6' : 'bg-secondary text-white rounded-bl-none ml-8 xxs:ml-6'} rounded-lg break-words ${img && 'rounded-t-none w-[250px]'} max-w-[300px]`} onClick={() => setShowDate(!showDate)}>
+                                {
+                                    (text !== 'Audio call' && text !== 'Video call') ? text : text === 'Audio call' ?
+                                        (<div className='flex items-center gap-2 opacity-80'>
+                                            <IoMdCall className='text-3xl' />
+                                            <div className=''>
+                                                <p className='text-normal font-semibold'>Audio Call</p>
+                                                <p className='text-xs'>{(callTime?.seconds || callTime?.minute || callTime?.hour) ? `${callTime?.minute} : ${callTime?.seconds}` : 'missed call'}</p>
+                                            </div>
+                                        </div>) :
+                                        (<div className='flex items-center gap-2 opacity-80'>
+                                            <IoMdVideocam className='text-3xl' />
+                                            <div className=''>
+                                                <p className='text-normal font-semibold'>Video Call</p>
+                                                <p className='text-xs'>{(callTime?.seconds || callTime?.minute || callTime?.hour) ? `${callTime?.minute} : ${callTime?.seconds} min` : 'missed call'}</p>
+                                            </div>
+                                        </div>)
+                                }
+                            </div>}
                         </div>
                     </div>
                 </div>

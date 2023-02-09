@@ -8,13 +8,30 @@ import { socket } from "../utils/Socket.io/socket";
 const useCalling = (currentUserId) => {
     const [peerId, setPeerId] = useState('');
     const [callerId, setCallerId] = useState('');
+    const [caller, setCaller] = useState({});
     const [peerConn, setPeerConn] = useState({});
     const [callClose, setCallClose] = useState(false)
     const [callEnded, setCallEnded] = useState(false)
+    const [isVideoCall, setIsVideoCall] = useState(false);
+    const [users, setUsers] = useState({});
+    const [mic, setMic] = useState(false);
+    const [camera, setCamera] = useState(false);
+    const [videoActive, setVideoActive] = useState(false);
     const remoteVideoRef = useRef();
     const currentVideoRef = useRef();
     const localStreamRef = useRef(null);
     const remoteStreamRef = useRef(null);
+
+    const adio = {
+        sampleRate: 48,
+        sampleSize: 16,
+        channelCount: 1,
+        volume: 1,
+        latency: 0.003,
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true
+    }
 
     useEffect(() => {
         socket.emit('room', currentUserId);
@@ -29,45 +46,70 @@ const useCalling = (currentUserId) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [callClose]);
 
+    useEffect(() => {
+        if (remoteStreamRef.current) {
+            remoteStreamRef.current.getAudioTracks()[0].enabled = false;
+        }
+    }, [])
 
-    socket.on('id', id => {
-        setCallerId(id)
+
+    socket.on('id', ({ peerId, videoCall, caller }) => {
+        setCallerId(peerId);
+        setIsVideoCall(videoCall);
+        setCaller(caller);
+    })
+    socket.on('videoActive', data => {
+        setVideoActive(data);
     })
 
-    const call = async (id) => {
+    useEffect(() => {
+        socket.on('users', data => {
+            setUsers(data);
+        })
+    }, [])
+
+    const call = async (id, video, caller) => {
+        setCallEnded(false);
+        setIsVideoCall(video);
+        setMic(true);
+        setCamera(video);
         let getUserMedia = await navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        getUserMedia({ video: true, audio: true }, (mediaStream) => {
+        getUserMedia({ video: video, audio: adio }, (mediaStream) => {
             currentVideoRef.current.srcObject = mediaStream;
             localStreamRef.current = mediaStream;
+            mediaStream.getAudioTracks()[0].enabled = false;
         })
         socket.emit('room', id);
+        socket.emit('videoActive', video);
         peerConn.on('call', async call => {
-            getUserMedia({ video: true, audio: true }, (mediaStream) => {
+            getUserMedia({ video: video, audio: adio }, (mediaStream) => {
                 currentVideoRef.current.srcObject = mediaStream;
-                localStreamRef.current = mediaStream;
                 call.answer(mediaStream)
                 call.on('stream', remoteStream => {
                     remoteVideoRef.current.srcObject = remoteStream;
-                    remoteStreamRef.current = remoteStream
+                    remoteStreamRef.current = remoteStream;
                 })
+                localStreamRef.current = mediaStream;
             })
         })
-        socket.emit('id', peerId);
+        socket.emit('id', ({ peerId, videoCall: video, caller }));
     }
 
     const callAnswer = async (remotePeerId) => {
+        setCallEnded(false);
+        setMic(true);
+        setCamera(isVideoCall);
         let getUserMedia = await navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-        getUserMedia({ video: true, audio: true }, async (mediaStream) => {
-
+        getUserMedia({ video: isVideoCall, audio: adio }, async (mediaStream) => {
+            socket.emit('videoActive', isVideoCall);
             currentVideoRef.current.srcObject = mediaStream;
-            localStreamRef.current = mediaStream;
-
             const call = peerConn.call(remotePeerId, mediaStream);
             call.on('stream', (remoteStream) => {
                 remoteVideoRef.current.srcObject = remoteStream;
                 remoteStreamRef.current = remoteStream;
-            })
+            });
+            localStreamRef.current = mediaStream;
         })
 
     }
@@ -76,9 +118,13 @@ const useCalling = (currentUserId) => {
         let videoTrack = localStreamRef.current.getTracks().find(track => track.kind === 'video')
         if (videoTrack.enabled) {
             videoTrack.enabled = false
+            setCamera(false);
+            socket.emit('videoActive', false);
         }
         else {
             videoTrack.enabled = true;
+            setCamera(true);
+            socket.emit('videoActive', true);
         }
         // console.log(videoTrack.enabled);
     }
@@ -86,9 +132,11 @@ const useCalling = (currentUserId) => {
         let audioTrack = localStreamRef.current.getTracks().find(track => track.kind === 'audio')
         if (audioTrack.enabled) {
             audioTrack.enabled = false
+            setMic(false);
         }
         else {
             audioTrack.enabled = true;
+            setMic(true);
         }
     }
 
@@ -98,6 +146,7 @@ const useCalling = (currentUserId) => {
         setCallEnded(true)
         setCallClose(true);
         setCallerId('');
+        setCaller({});
         if (localStreamRef.current) {
             localStreamRef.current.getTracks().forEach(function (track) {
                 track.stop();
@@ -116,7 +165,16 @@ const useCalling = (currentUserId) => {
         setCallerId,
         localStreamRef,
         toggleCamera,
-        toggleMic
+        toggleMic,
+        isVideoCall,
+        setIsVideoCall,
+        mic,
+        camera,
+        remoteStreamRef,
+        videoActive,
+        caller,
+        users,
+        setCallEnded
     }
 }
 

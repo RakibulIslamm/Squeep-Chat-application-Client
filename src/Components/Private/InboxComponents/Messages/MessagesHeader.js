@@ -8,7 +8,7 @@ import MessageHeaderLoader from '../../../../utils/Loader/MessageHeaderLoader';
 
 
 
-const MessagesHeader = ({ callUser }) => {
+const MessagesHeader = ({ videoCall, audioCall }) => {
     const conversationInfo = useSelector(state => state.toggle.conversationInfo);
     const { email } = useSelector(state => state.auth.user);
     const allactiveUsers = useSelector(state => state?.activeUsers?.activeUsers);
@@ -25,7 +25,7 @@ const MessagesHeader = ({ callUser }) => {
     }
     else if (!isLoading && conversation) {
         content = <div className='w-full flex items-center gap-3 xxs:gap-1 py-4'>
-            <img className='rounded-full w-[35px] h-[35px] xxs:w-[25px] xxs:h-[25px]' src={participant?.img || "https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
+            <img className='rounded-full w-[35px] h-[35px] xxs:w-[25px] xxs:h-[25px] object-cover' src={participant?.img || "https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
             <div className='w-full'>
                 <div>
                     <p className='font-bold text-sm xxs:text-xs text-[#9BA2B0]'>{participant?.name}</p>
@@ -40,12 +40,12 @@ const MessagesHeader = ({ callUser }) => {
 
 
     return (
-        <div className='w-full h-[70px] xxs:h-[50px] bg-secondary px-6 xxs:px-3 border-l border-primary flex items-center justify-between border-r'>
+        <div className='w-full h-[70px] bg-secondary px-6 xxs:px-3 border-l border-primary flex items-center justify-between border-r'>
             {content}
             <div className='flex items-center gap-4'>
-                <button><IoMdCall className='text-[30px] xxs:text-[22px] text-white rounded-full p-1 hover:bg-primary' /></button>
-                <button onClick={callUser}><IoMdVideocam className='text-[30px] xxs:text-[22px] text-white rounded-full p-1 hover:bg-primary cursor-pointer' /></button>
-                <button onClick={() => dispatch(handleConversationInfo(true))}><IoMdInformationCircle className={`text-[30px] xxs:text-[22px] text-white rounded-full p-1 hover:bg-primary ${conversationInfo && 'bg-primary'}`} /></button>
+                <button onClick={audioCall}><IoMdCall className='text-[30px] text-white rounded-full p-1 hover:bg-primary' /></button>
+                <button onClick={videoCall}><IoMdVideocam className='text-[30px] text-white rounded-full p-1 hover:bg-primary cursor-pointer' /></button>
+                <button onClick={() => dispatch(handleConversationInfo(true))}><IoMdInformationCircle className={`text-[30px] text-white rounded-full p-1 hover:bg-primary ${conversationInfo && 'bg-primary'}`} /></button>
             </div>
         </div>
     );

@@ -21,7 +21,7 @@ const SideBar = () => {
     }
 
     return (
-        <div className={`${toggle ? 'w-[200px]' : 'w-[60px]'} xxs:w-0 h-full bg-sidebarBg py-6 flex flex-col justify-between items-center overflow-hidden transition-all ease-in-out duration-300`}>
+        <div className={`${toggle ? 'w-[200px]' : 'w-[60px]'} xxs:w-0 xs:w-0 sm:w-0 h-full bg-sidebarBg py-6 flex flex-col justify-between items-center overflow-hidden transition-all ease-in-out duration-300`}>
             <div className='w-full flex items-center h-[70px] px-4'>
                 <img className=' w-[40px]' src={logo} alt="" />
                 <p className={`absolute transform ${toggle ? 'opacity-100 translate-x-12 duration-300' : 'opacity-0 translate-x-20 duration-200'} transition-all ease-in-out font-semibold text-white`}>Squeep</p>

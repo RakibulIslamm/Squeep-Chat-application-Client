@@ -8,16 +8,19 @@ const userApi = apiSlice.injectEndpoints({
                 url: `/users`,
                 method: 'POST',
                 body: data
-            })
+            }),
+            invalidatesTags: ['user', 'newPeople']
         }),
         newPeople: builder.query({
-            query: (email) => `/new-people?email=${email}`
+            query: (email) => `/new-people?email=${email}`,
+            providesTags: ['newPeople']
         }),
         findPeople: builder.query({
-            query: (email) => `/find-people?email=${email}`
+            query: (email) => `/find-people?email=${email}`,
         }),
         getUser: builder.query({
-            query: (email) => `/user?email=${email}`
+            query: (email) => `/user?email=${email}`,
+            providesTags: ['user', 'profileImageUpdated']
         }),
         getUserByUsername: builder.query({
             query: (username) => `/profile?username=${username}`
@@ -33,8 +36,9 @@ const userApi = apiSlice.injectEndpoints({
             query: ({ id, data }) => ({
                 url: `/update-profile-photo/${id}`,
                 method: 'POST',
-                body: data
-            })
+                body: data,
+            }),
+            invalidatesTags: ['profileImageUpdated']
         }),
     })
 })

@@ -1,7 +1,9 @@
 import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, getAuth, signOut, EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { authLogError, authRegError, logOutUser, passUpdated } from "../features/auth/authSlice";
+import { useAddUserMutation } from "../features/user/userApi";
 import { authApp } from '../Firebase/firebaseInit'
 import { socket } from "../utils/Socket.io/socket";
 
@@ -10,8 +12,10 @@ const useFirebase = () => {
     const [loginLoading, setLoginLoading] = useState(false);
     const [regLoading, setRegLoading] = useState(false);
     const [updatePassError, setUpdatePassError] = useState('');
+    const [addUser] = useAddUserMutation()
     const auth = getAuth(authApp);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     // Create account
     const createAccount = async (name, email, password) => {
@@ -25,8 +29,18 @@ const useFirebase = () => {
                     await updateProfile(auth.currentUser, { displayName: name })
                     const currentUser = { name: user.displayName, email: user.email, img: user.photoURL }
                     console.log(currentUser);
-                    // const { displayName, photoURL, email } = user;
-                    // const username = email.split('@')[0];
+                    const { displayName, photoURL, email } = user;
+                    const username = email.split('@')[0];
+                    const userData = {
+                        name: displayName,
+                        username,
+                        email,
+                        img: photoURL
+                    }
+                    addUser({
+                        data: userData
+                    })
+                    navigate('/upload-image');
                 }
                 catch (err) {
 

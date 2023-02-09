@@ -4,23 +4,26 @@ import { ThreeDots } from 'react-loader-spinner';
 import MessagesHeader from './MessagesHeader';
 import MessagesFooter from './MessagesFooter';
 import { useParams } from 'react-router-dom';
-import { useGetMessagesQuery } from '../../../../features/messages/messageAPI';
+import { useGetMessagesQuery, useSendMessageMutation } from '../../../../features/messages/messageAPI';
 import MessagesLoader from '../../../../utils/Loader/MessagesLoader';
 import { socket } from '../../../../utils/Socket.io/socket';
-import { useGetSingleConversationQuery } from '../../../../features/conversations/conversationsAPI';
+import { useGetSingleConversationQuery, useUpdateConversationMutation } from '../../../../features/conversations/conversationsAPI';
 import VideoCalling from '../VideoCalling/VideoCalling';
 import IncommingCall from '../VideoCalling/IncommingCall';
 import { useEffect } from 'react';
 import { useGetUserQuery } from '../../../../features/user/userApi';
 import useCalling from '../../../../Hooks/useCalling';
 import { useState } from 'react';
+import { useRef } from 'react';
 
 const Messages = () => {
     const collapse = useSelector(state => state.toggle.sidebarToggle);
     const { email } = useSelector(state => state.auth.user);
     const { data } = useGetUserQuery(email);
     const [callOpen, setCallOpen] = useState(false);
+    const [callAnswered, setCallAnswered] = useState(false);
     const [callTime, setCallTime] = useState({});
+    let IntervalId = useRef(null);
 
 
     const { id } = useParams();
@@ -29,54 +32,112 @@ const Messages = () => {
 
     const participant = (!pLoading && !pError && conversation) && conversation?.users.find(user => user.email !== email);
 
-    const { remoteVideoRef, currentVideoRef, call, callAnswer, callerId, setCallerId, callEnded, leaveCall, toggleCamera, toggleMic, localStreamRef } = useCalling(data?._id);
+    const callerInfo = (!pLoading && !pError && conversation) && conversation?.users.find(user => user.email === email);
+
+    const { remoteVideoRef, currentVideoRef, call, callAnswer, callerId, setCallerId, setCallEnded, leaveCall, toggleCamera, toggleMic, localStreamRef, isVideoCall, mic, camera, videoActive, caller, users } = useCalling(data?._id);
+
+
+    useEffect(() => {
+        let intervalId;
+        let totalSeconds = 0;
+        if (callAnswered) {
+            intervalId = setInterval(() => {
+                ++totalSeconds;
+                var hour = Math.floor(totalSeconds / 3600);
+                var minute = Math.floor((totalSeconds - hour * 3600) / 60);
+                var seconds = totalSeconds - (hour * 3600 + minute * 60);
+                if (hour < 10)
+                    hour = "0" + hour;
+                if (minute < 10)
+                    minute = "0" + minute;
+                if (seconds < 10)
+                    seconds = "0" + seconds;
+                setCallTime({ hour, minute, seconds });
+            }, 1000);
+        }
+        IntervalId.current = intervalId;
+    }, [callAnswered])
 
     socket.on('callEnd', data => {
-        leaveCall();
-        setCallOpen(false);
+        // console.log(data);
         if (localStreamRef.current) {
             localStreamRef.current.getTracks().forEach(function (track) {
                 track.stop();
             });
         }
+        leaveCall();
+        setCallOpen(false);
+        setCallAnswered(false);
+        clearInterval(IntervalId.current);
+        setCallTime({});
     })
-    const callTimer = () => {
-        let totalSeconds = 0;
-        setInterval(() => {
-            ++totalSeconds;
-            var hour = Math.floor(totalSeconds / 3600);
-            var minute = Math.floor((totalSeconds - hour * 3600) / 60);
-            var seconds = totalSeconds - (hour * 3600 + minute * 60);
-            if (hour < 10)
-                hour = "0" + hour;
-            if (minute < 10)
-                minute = "0" + minute;
-            if (seconds < 10)
-                seconds = "0" + seconds;
-            setCallTime({ hour, minute, seconds });
-        }, 1000);
+
+
+    socket.on('callAnswered', data => {
+        setCallAnswered(true);
+    })
+    const [updateConversation] = useUpdateConversationMutation();
+    const [sendMessage] = useSendMessageMutation();
+    const callEndMessage = async () => {
+        const callerr = users.users.find(user => user.email === users.caller);
+        const receiver = users.users.find(user => user.email !== users.caller);
+        const data = {
+            conversationId: users.conversationId,
+            sender: {
+                name: callerr.name,
+                email: callerr.email
+            },
+            receiver: {
+                name: receiver.name,
+                email: receiver?.email
+            },
+            message: users.callType === 'audio' ? 'Audio call' : 'Video call',
+            callTime: callTime,
+            img: '',
+            timestamp: new Date().getTime(),
+        }
+        try {
+            const messageText = users.callType === 'audio' ? 'Audio call' : 'Video Call';
+            const messageData = { messageText, email: callerr.email, timestamp: new Date().getTime(), unseenMessages: conversation.unseenMessages, img: false };
+            updateConversation({ messageData, id, email: callerr.email });
+            // socket.emit("getMessage", data);
+            sendMessage(data);
+        }
+        catch (err) {
+
+        }
+        finally {
+            setCallEnded(false);
+        }
     }
 
-
-    // callTimer();
-
-    const callUser = () => {
-        call(participant?._id);
+    const videoCall = () => {
+        call(participant?._id, true, callerInfo);
         setCallOpen(true);
+        socket.emit('users', ({ callType: 'video', caller: callerInfo.email, users: conversation.users, conversationId: conversation._id }));
+    }
+    const audioCall = () => {
+        call(participant?._id, false, callerInfo);
+        setCallOpen(true);
+        socket.emit('users', ({ callType: 'audio', caller: callerInfo.email, users: conversation.users, conversationId: conversation._id }));
     }
 
     // console.log(callerId);
     const answerCall = () => {
-        callAnswer(callerId);
+        callAnswer(callerId, true);
         setCallOpen(true);
-        callTimer();
+        setCallAnswered(true);
+        socket.emit('callAnswered', true);
     }
 
-    const callEnd = () => {
+    const callEnd = async () => {
         socket.emit('callEnd', true);
         leaveCall();
         setCallerId('');
         setCallOpen(false);
+        setCallAnswered(false);
+        clearInterval(IntervalId.current);
+        callEndMessage();
     }
 
 
@@ -114,7 +175,8 @@ const Messages = () => {
                 </div> :
                     <div onClick={handleMessageBodyClick} className={` md:w-[calc(100%_-_320px)] sm:w-[calc(100%_-_280px)] xs:w-full ${collapse ? 'w-[calc(100%_-_320px)]' : 'w-[calc(100%_-_640px)] relative'}  h-full transition-all ease-in-out duration-300`}>
                         <div className='h-full flex flex-col justify-between'>
-                            <MessagesHeader callUser={callUser} />
+                            {/* Inbox head */}
+                            <MessagesHeader videoCall={videoCall} audioCall={audioCall} />
                             <div className='h-[calc(100%_-_140px)] w-full px-6 xxs:px-3 py-4 overflow-y-auto flex flex-col-reverse gap-4 scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
                                 {content}
                             </div>
@@ -140,10 +202,10 @@ const Messages = () => {
                     </div>
             }
             {callOpen && <div className='absolute transform top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full z-50'>
-                <VideoCalling toggleMic={toggleMic} toggleCamera={toggleCamera} currentVideoRef={currentVideoRef} remoteVideoRef={remoteVideoRef} callEnd={callEnd} callerId={callerId} callOpen={callOpen} />
+                <VideoCalling caller={caller} videoActive={videoActive} mic={mic} camera={camera} participant={participant} isVideoCall={isVideoCall} callTime={callTime} callAnswered={callAnswered} toggleMic={toggleMic} toggleCamera={toggleCamera} currentVideoRef={currentVideoRef} remoteVideoRef={remoteVideoRef} callEnd={callEnd} callerId={callerId} callOpen={callOpen} />
             </div>}
             {(callerId && !callOpen) && <div className='absolute transform top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full'>
-                <IncommingCall answerCall={answerCall} callEnd={callEnd} />
+                <IncommingCall caller={caller} answerCall={answerCall} callEnd={callEnd} />
             </div>}
         </>
     );

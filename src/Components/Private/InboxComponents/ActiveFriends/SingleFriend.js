@@ -10,8 +10,8 @@ const SingleFriend = ({ activeFriend }) => {
     return (
         <Link to={`/inbox/messages/${activeFriend?.conversationId}`}>
             <div className='w-full flex items-center gap-3 px-4 py-2 hover:bg-primary cursor-pointer'>
-                <div className='relative w-[35px]'>
-                    <img className='rounded-full w-full h-full' src="https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg" alt="" />
+                <div className='relative w-[40px] h-[35px]'>
+                    <img className='rounded-full w-full h-full object-cover' src={user?.img || "https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
                     <div className='w-3 h-3 rounded-full bg-green border-[2px] border-secondary absolute bottom-0 right-0'></div>
                 </div>
                 <div className='w-full'>

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useGetUserQuery, useUpdateUserProfileMutation, useUpdateUserProfilePhotoMutation } from '../../../features/user/userApi';
-import LightBox from '../../../utils/LightBox/LightBox';
 import ProfileImageUploading from '../../../utils/Loader/ProfileImageUploading';
 
 const AccountSettings = () => {
@@ -30,10 +29,35 @@ const AccountSettings = () => {
             success: async (compressedResult) => {
                 // compressedResult has the compressed file.
                 // Use the compressed file to upload the images to your server.
-                const res = await getBase64(compressedResult);
+                //const res = await getBase64(compressedResult);
+
+
+                // Cloudinary image upload
+                const formData = new FormData();
+                formData.append("file", compressedResult);
+                formData.append("upload_preset", "testttttttttttttttt");
+                formData.append("cloud_name", process.env.REACT_APP_CLOUD_NAME);
+
+                try {
+                    const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload`, {
+                        method: "post",
+                        body: formData
+                    });
+                    const data = await res.json();
+                    setImgLink(data.url);
+
+                }
+                catch (err) {
+                    console.log(err);
+                }
+                finally {
+                    setIsUploading(false)
+                }
+
+
 
                 // imgbb image upload api start>>
-                const baseUrl = res;
+                /* const baseUrl = res;
                 const formData = new FormData();
                 const str = baseUrl.split(',')[1];
                 formData.append('image', str);
@@ -51,7 +75,7 @@ const AccountSettings = () => {
                 }
                 finally {
                     setIsUploading(false)
-                }
+                } */
 
                 // imgbb image upload end<<
             },
@@ -70,7 +94,7 @@ const AccountSettings = () => {
     }
 
     // Get base64 function start>>
-    const getBase64 = file => {
+    /* const getBase64 = file => {
         return new Promise(resolve => {
             let baseURL = "";
             // Make new FileReader
@@ -86,7 +110,7 @@ const AccountSettings = () => {
                 resolve(baseURL);
             };
         });
-    };
+    }; */
     // Get base64 function end<<
 
     useEffect(() => {

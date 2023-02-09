@@ -27,7 +27,7 @@ const MyProfile = () => {
 
 
     return (
-        <div className='w-[calc(100%_-_330px)] overflow-y-auto scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
+        <div className='w-[calc(100%_-_330px)] xs:w-full sm:w-full overflow-y-auto scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg scrollbar-thumb-rounded-full scrollbar-track-rounded-full xs:scrollbar-none xxs:scrollbar-none'>
             {content}
             <Friends />
         </div>

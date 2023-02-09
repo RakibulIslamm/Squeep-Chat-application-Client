@@ -5,7 +5,7 @@ import { socket } from '../../utils/Socket.io/socket';
 const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000',
+        baseUrl: 'https://squeep-chat-application.glitch.me',
         prepareHeaders: async (headers, { getState, endpoint }) => {
             if (endpoint === 'sendMessage') {
                 socket.connect();
@@ -16,7 +16,7 @@ const apiSlice = createApi({
             }
         }
     }),
-    tagTypes: ['friends'],
+    tagTypes: ['friends', 'user', 'newPeople', 'profileImageUpdated'],
     endpoints: (builder) => ({
 
     })

@@ -18,6 +18,7 @@ import NotificationSettings from "../Components/Private/settingsComponents/Notif
 import NotFoundPage from "../Pages/NotFoundPage";
 import FindPeoplePage from "../Pages/FindPeoplePage";
 import UserProfile from "../Components/Private/UserProfile/UserProfile";
+import UploadProfilePhoto from "../Components/Private/UploadProfilePhoto/UploadProfilePhoto";
 
 function Layout() {
 
@@ -67,6 +68,9 @@ function Layout() {
             </Route>
 
 
+            <Route path='/upload-image' element={<PrivateRoute>
+                <UploadProfilePhoto />
+            </PrivateRoute>} />
             <Route path='*' element={<NotFoundPage />} />
         </Routes>
     );

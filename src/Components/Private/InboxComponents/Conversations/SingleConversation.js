@@ -3,6 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { AiOutlineFileImage } from 'react-icons/ai';
+import { IoMdCall, IoMdVideocam } from 'react-icons/io';
 
 const SingleConversation = ({ conversation }) => {
     const { email } = useSelector(state => state.auth.user)
@@ -24,7 +25,28 @@ const SingleConversation = ({ conversation }) => {
                     <p className='text-xs text-[#9BA2B0]'>{timestamp ? moment(timestamp).fromNow() : ''}</p>
                 </div>
                 <div className='flex justify-between items-center gap-2'>
-                    <p className={`text-sm break-all  ${sender !== email && unseenMessages > 0 ? 'text-white font-semibold' : 'text-[#9BA2B0]'} line-clamp-1`}>{lastMessage ? lastMessage : <span>{img ? <span className='flex items-center gap-1'><AiOutlineFileImage />{sender === email ? 'Your send an image' : 'You receive an image'}</span> : 'You are now connected to message each other'}</span>}</p>
+                    <div className={`text-sm break-all  ${sender !== email && unseenMessages > 0 ? 'text-white font-semibold' : 'text-[#9BA2B0]'} line-clamp-1`}>
+
+                        {
+                            (lastMessage !== 'Audio call' && lastMessage !== 'Video Call' && lastMessage !== '') ?
+                                <span>
+                                    {lastMessage}
+                                </span> :
+                                lastMessage === 'Audio call' ?
+                                    <span className='flex items-center gap-1'>
+                                        <IoMdCall className='text-sm' />
+                                        <p>audio call</p>
+                                    </span> :
+                                    lastMessage === 'Video Call' ?
+                                        <span className='flex items-center gap-1'>
+                                            <IoMdVideocam className='text-sm' />
+                                            <p>video call</p>
+                                        </span> : img ? <span className='flex items-center gap-1'><AiOutlineFileImage />{sender === email ? 'Your send an image' :
+                                            'You receive an image'}
+                                        </span> :
+                                            'You are now connected to message each other'
+                        }
+                    </div>
                     {unseenMessages > 0 && sender !== email && <span className='flex justify-center items-center w-6 h-5 bg-yellow rounded-full text-xs px-1'>{sender !== email && unseenMessages <= 9 ? unseenMessages : '9+'}</span>}
                 </div>
             </div>

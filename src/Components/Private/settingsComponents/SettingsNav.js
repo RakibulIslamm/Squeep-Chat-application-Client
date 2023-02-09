@@ -7,7 +7,7 @@ import SettingsCustomLink from '../../../utils/SettingsCustomLink';
 const SettingsNav = () => {
     const { email } = useSelector(state => state.auth.user);
     const { data } = useGetUserQuery(email);
-    console.log(data);
+
     return (
         <div className='flex items-center justify-between'>
             <div className='py-2 flex items-center justify-between gap-5 text-white'>

@@ -22,7 +22,7 @@ const PrivateLayout = () => {
     }, [user]);
 
     return (
-        <div className='max-w-[1920px] min-h-[500px] xs:min-h-screen xxs:min-h-screen h-screen bg-primary mx-auto overflow-hidden flex items-start'>
+        <div className='max-w-[1920px] min-h-[500px] xs:min-h-[100vw] xxs:min-h-[100vw] h-screen bg-primary mx-auto overflow-hidden flex items-start'>
             <SideBar />
             <Outlet />
         </div>
