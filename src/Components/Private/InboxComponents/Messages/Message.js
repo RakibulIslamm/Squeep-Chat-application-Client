@@ -3,12 +3,15 @@ import React, { useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { IoMdCall, IoMdVideocam } from 'react-icons/io';
 import { RiShareForwardLine } from 'react-icons/ri';
+import { useGetUserQuery } from '../../../../features/user/userApi';
 import LightBox from '../../../../utils/LightBox/LightBox';
 
-const Message = ({ email, message }) => {
+const Message = ({ email, message, senderImg }) => {
     const [showDate, setShowDate] = useState(false)
     const { message: text, timestamp, sender, img, callTime } = message || {};
     const justify = email !== sender.email ? 'justify-end' : 'justify-start';
+    const { data } = useGetUserQuery(sender?.email);
+
 
     return (
         <div className={`flex ${justify} w-full`}>
@@ -45,7 +48,7 @@ const Message = ({ email, message }) => {
                     </div>
                 </div>
                 {(text || img) && <div className={`flex items-center gap-2 ${email === sender.email ? 'flex-row-reverse' : ''}`}>
-                    <img className={`w-8 xxs:w-6 h-8 xxs:h-6 rounded-full`} src="https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg" alt="" />
+                    <img className={`w-8 xxs:w-6 h-8 xxs:h-6 rounded-full object-cover`} src={(sender.email === email ? senderImg : data?.img) || 'https://www.seekpng.com/png/full/114-1149972_avatar-free-png-image-avatar-png.png'} alt="" />
                     <span className='text-xs xxs:text-[10px] text-gray-400'>{sender.email !== email && sender.name}</span>
                 </div>}
             </div>

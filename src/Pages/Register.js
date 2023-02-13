@@ -59,12 +59,6 @@ const Register = () => {
                 <input className='border border-primary bg-[#2d3d57] pl-4 pr-10 py-2 text-white outline-primary w-full font-light' type='password' name='confirmPassword' placeholder='Confirm Password' required />
                 {error && <p className='text-xs font-light text-red-500'>{error}</p>}
 
-                {/* Image upload Field */}
-                <div className='border border-primary bg-[#2d3d57] px-4 py-2 font-light outline-primary'>
-                    <label className='text-white inline-block text-opacity-75 mb-1'>Upload Your Image</label>
-                    <input className=' w-full text-white text-opacity-75' type="file" name='img' />
-                </div>
-
                 {/* Submit button */}
                 <button disabled={regLoading === true} className='px-4 h-11 bg-yellow text-lightBlack flex justify-center items-center' type="submit">{regLoading ? <ButtonLoader /> : 'Register'}</button>
                 {authError && <p className='text-xs font-light text-red-500'>{authError}</p>}

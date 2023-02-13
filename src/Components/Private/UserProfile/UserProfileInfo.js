@@ -62,7 +62,7 @@ const UserProfileInfo = ({ user }) => {
                 <div className='relative -top-7 flex items-center justify-between'>
                     <div className='flex items-center gap-3'>
                         <div className='relative group cursor-pointer'>
-                            <img className='w-[150px] h-[150px] object-cover rounded-full border-[5px] border-primary' src={user?.img || "https://media.istockphoto.com/id/692879918/photo/what-more-can-a-girl-ask-for.jpg?b=1&s=170667a&w=0&k=20&c=2nWaAp-3PXenP8Vg7wqWndG0ci1mNSiXEbrjsp1Dj4g="} alt="" />
+                            <img className='w-[150px] h-[150px] object-cover rounded-full border-[5px] border-primary' src={user?.img || "https://www.seekpng.com/png/full/114-1149972_avatar-free-png-image-avatar-png.png"} alt="" />
                         </div>
                         <div>
                             <h3 className='text-2xl font-semibold text-white'>{user?.name}</h3>

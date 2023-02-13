@@ -26,9 +26,7 @@ const useFirebase = () => {
             // const currentUser = { name: name, email: user.email, img: user.photoURL }
             if (user?.email) {
                 try {
-                    await updateProfile(auth.currentUser, { displayName: name })
-                    const currentUser = { name: user.displayName, email: user.email, img: user.photoURL }
-                    console.log(currentUser);
+                    await updateProfile(auth.currentUser, { displayName: name });
                     const { displayName, photoURL, email } = user;
                     const username = email.split('@')[0];
                     const userData = {
@@ -37,7 +35,7 @@ const useFirebase = () => {
                         email,
                         img: photoURL
                     }
-                    addUser({
+                    await addUser({
                         data: userData
                     })
                     navigate('/upload-image');

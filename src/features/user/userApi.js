@@ -40,7 +40,15 @@ const userApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['profileImageUpdated']
         }),
+        updateUserCoverPhoto: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/update-cover-photo/${id}`,
+                method: 'POST',
+                body: data,
+            }),
+            invalidatesTags: ['profileImageUpdated']
+        }),
     })
 })
 
-export const { useAddUserMutation, useGetUserQuery, useUpdateUserProfileMutation, useUpdateUserProfilePhotoMutation, useFindPeopleQuery, useNewPeopleQuery, useGetUserByUsernameQuery } = userApi;
+export const { useAddUserMutation, useGetUserQuery, useUpdateUserProfileMutation, useUpdateUserProfilePhotoMutation, useFindPeopleQuery, useNewPeopleQuery, useGetUserByUsernameQuery, useUpdateUserCoverPhotoMutation } = userApi;

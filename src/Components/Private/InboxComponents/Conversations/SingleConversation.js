@@ -16,7 +16,7 @@ const SingleConversation = ({ conversation }) => {
     return (
         <Link className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-primary ${_id === id ? 'bg-primary' : ''}`} to={`/inbox/messages/${_id}`}>
             <div className='flex items-center relative w-1/4'>
-                <img className='rounded-full w-[55px] h-[55px] object-cover' src={participant?.img || "https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"} alt="" />
+                <img className='rounded-full w-[55px] h-[55px] object-cover' src={participant?.img || "https://www.seekpng.com/png/full/114-1149972_avatar-free-png-image-avatar-png.png"} alt="" />
                 <div className={`absolute w-3 h-3 rounded-full ${allactiveUsers.includes(participant?.email) ? 'bg-green' : 'bg-gray-500'} bottom-1 right-1 border-[1px] border-secondary`}></div>
             </div>
             <div className='w-full'>

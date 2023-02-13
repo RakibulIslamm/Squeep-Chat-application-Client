@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import CoverImageLoader from '../../../../utils/Loader/profileLoader/CoverImageLoader';
 import ProfilePhotoLoader from '../../../../utils/Loader/profileLoader/ProfilePhotoLoader';
@@ -7,7 +6,6 @@ import MyProfileInfo from './MyProfileInfo';
 import Friends from './Friends/Friends';
 
 const MyProfile = () => {
-
     const { email } = useSelector(state => state.auth.user)
     const { data: user, isLoading, isError, isSuccess } = useGetUserQuery(email)
     // console.log(user);

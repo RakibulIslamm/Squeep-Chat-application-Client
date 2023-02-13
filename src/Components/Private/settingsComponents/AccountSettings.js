@@ -44,7 +44,7 @@ const AccountSettings = () => {
                         body: formData
                     });
                     const data = await res.json();
-                    setImgLink(data.url);
+                    setImgLink(data.secure_url);
 
                 }
                 catch (err) {

@@ -164,7 +164,7 @@ const Messages = () => {
         </div>
     }
     else if (!isLoading && !isError && messages.length) {
-        content = messages.map(message => <Message key={message._id} message={message} email={email} />)
+        content = messages.map(message => <Message key={message._id} message={message} email={email} senderImg={data?.img} />)
     }
 
     return (

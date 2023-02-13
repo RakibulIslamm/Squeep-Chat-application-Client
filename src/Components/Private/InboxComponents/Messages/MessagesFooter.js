@@ -35,7 +35,6 @@ const MessagesFooter = () => {
 
     const dispatch = useDispatch();
     const onSubmit = async msg => {
-        console.log(msg);
         const messageText = msg.message;
         if (!messageText && !imgLink) {
             return;

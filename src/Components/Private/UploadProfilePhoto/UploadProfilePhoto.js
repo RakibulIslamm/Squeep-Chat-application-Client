@@ -47,7 +47,7 @@ const UploadProfilePhoto = () => {
                     const data = await res.json();
 
                     // Upload Image
-                    const img = { img: data.url };
+                    const img = { img: data.secure_url };
                     updateUserProfilePhoto({ id: user?._id, data: img });
                     navigate('/my-profile');
                 }
@@ -80,7 +80,7 @@ const UploadProfilePhoto = () => {
 
                 <div className='w-[400px] h-[400px] bg-secondary flex items-center justify-center'>
                     <input className='hidden' type="file" id="upload" onChange={handleImageChange} accept='image/*' />
-                    <label className='px-4 py-1 bg-gray-500 rounded flex items-center gap-2 cursor-pointer hover:bg-opacity-80' htmlFor="upload"><BsFillFileEarmarkImageFill />Choose File</label>
+                    <label className='px-4 py-1 bg-gray-500 rounded flex items-center gap-2 cursor-pointer hover:bg-opacity-80' htmlFor="upload"><BsFillFileEarmarkImageFill />Choose Photo</label>
                 </div>}
             <button onClick={() => navigate('/my-profile')} className="tracking-widest text-gray-400 flex items-center justify-center gap-2 py-1">Skip<TfiControlSkipForward /></button>
         </div>
