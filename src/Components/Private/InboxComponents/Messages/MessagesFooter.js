@@ -10,7 +10,6 @@ import Compressor from 'compressorjs';
 import { useEffect, useState } from 'react';
 import { RxCrossCircled } from 'react-icons/rx';
 import { useForm } from 'react-hook-form';
-import { socket } from '../../../../utils/Socket.io/socket';
 
 const MessagesFooter = () => {
     const { register, handleSubmit, setFocus, watch, reset } = useForm();

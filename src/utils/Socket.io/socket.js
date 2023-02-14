@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client';
-export const socket = io("https://squeep-chat-application.glitch.me", {
+export const socket = io("http://localhost:5000", {
     reconnectionDelay: 1000,
     reconnection: true,
     reconnectionAttempts: Infinity,
@@ -8,4 +8,6 @@ export const socket = io("https://squeep-chat-application.glitch.me", {
     rejectUnauthorized: false,
     autoConnect: true
 });
+
+//https://squeep-chat-application.glitch.me
 

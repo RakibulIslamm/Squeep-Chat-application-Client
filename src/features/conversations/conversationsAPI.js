@@ -66,6 +66,21 @@ export const conversationsAPI = apiSlice.injectEndpoints({
                         })
                     })
                 });
+
+                socket.on("lastSeen", async (data) => {
+                    await cacheDataLoaded;
+                    if (data.result.modifiedCount) {
+                        updateCachedData(draft => {
+                            for (const c of draft) {
+                                if (c._id === data.id) {
+                                    console.log(data);
+                                    c.lastSeen = data.data;
+                                }
+                            }
+                        })
+                    }
+                });
+
                 socket.on('message-notification-update', data => {
                     // console.log(data);
                     if (data.result.modifiedCount) {
@@ -99,6 +114,16 @@ export const conversationsAPI = apiSlice.injectEndpoints({
                         draft.unseenMessages += 1
                     })
                 });
+
+                socket.on("lastSeen", async (data) => {
+                    await cacheDataLoaded;
+                    if (data.result.modifiedCount) {
+                        updateCachedData(draft => {
+                            draft.lastSeen = data.data;
+                        })
+                    }
+                });
+
                 await cacheEntryRemoved;
                 socket.close();
             }

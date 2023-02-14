@@ -11,7 +11,7 @@ const MyProfileInfo = ({ user }) => {
     const [image, setImage] = useState('');
     const [file, setFile] = useState(null);
     const [uploading, setIsUploading] = useState(false);
-    const { name, username, img, _id } = user || {};
+    const { name, username, img, _id, coverImg } = user || {};
     const navigate = useNavigate();
     const [updateUserCoverPhoto, { isLoading }] = useUpdateUserCoverPhotoMutation()
 
@@ -48,6 +48,7 @@ const MyProfileInfo = ({ user }) => {
                     // Upload Image
                     const img = { img: data.secure_url };
                     await updateUserCoverPhoto({ id: _id, data: img });
+                    setUpdateCover(false);
                 }
                 catch (err) {
                     console.log(err);
@@ -64,7 +65,7 @@ const MyProfileInfo = ({ user }) => {
     return (
         <div className='relative'>
             <div className='w-full h-[300px] xs:h-[200px] xxs:h-[200px] bg-secondary rounded-b-xl relative'>
-                <img className='w-full h-full object-cover rounded-b-xl' src={"https://wallpapers.net/web/wallpapers/lamp-at-the-wall-hd-wallpaper/828x350.jpg"} alt="" />
+                <img className='w-full h-full object-cover rounded-b-xl' src={coverImg || "https://wallpapers.net/web/wallpapers/lamp-at-the-wall-hd-wallpaper/828x350.jpg"} alt="" />
                 {!updateCover && <button onClick={() => setUpdateCover(!updateCover)} className=' absolute right-6 bottom-4 px-5 py-1 bg-white bg-opacity-25 rounded-lg hover:bg-opacity-100 transition-all ease-in-out font-medium flex items-center gap-2'><TiCamera />Edit cover photo</button>}
             </div>
             <div className='w-[700px] xxs:w-full xs:w-full mx-auto xxs:px-5 xs:px-5'>

@@ -28,6 +28,9 @@ const Messages = () => {
 
     const { id } = useParams();
     const { data: messages, isLoading, isError, isFetching } = useGetMessagesQuery({ conversationId: id, email });
+
+    const lastMessage = messages && messages[0];
+
     const { data: conversation, isLoading: pLoading, isError: pError } = useGetSingleConversationQuery(id);
 
     const participant = (!pLoading && !pError && conversation) && conversation?.users.find(user => user.email !== email);
@@ -147,7 +150,12 @@ const Messages = () => {
     const handleMessageBodyClick = () => {
         if (conversation.sender !== email) {
             // console.log(email, conversation.sender);
-            socket.emit('message-notification', id);
+            const data = {
+                message: lastMessage.message,
+                timestamp: lastMessage.timestamp,
+                whoSeen: lastMessage.email
+            }
+            socket.emit('message-notification', { id, data });
         }
     }
 
@@ -164,7 +172,7 @@ const Messages = () => {
         </div>
     }
     else if (!isLoading && !isError && messages.length) {
-        content = messages.map(message => <Message key={message._id} message={message} email={email} senderImg={data?.img} />)
+        content = messages.map(message => <Message key={message._id} message={message} email={email} participant={participant} lastMessage={lastMessage} conversation={conversation} />)
     }
 
     return (
@@ -177,7 +185,7 @@ const Messages = () => {
                         <div className='h-full flex flex-col justify-between'>
                             {/* Inbox head */}
                             <MessagesHeader videoCall={videoCall} audioCall={audioCall} />
-                            <div className='h-[calc(100%_-_140px)] w-full px-6 xxs:px-3 py-4 overflow-y-auto flex flex-col-reverse gap-4 scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
+                            <div className='h-[calc(100%_-_135px)] w-full px-6 xxs:px-3 py-4 overflow-y-auto flex flex-col-reverse gap-4 scrollbar-thin scrollbar-thumb-lightBlack scrollbar-track-sidebarBg scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
                                 {content}
                             </div>
                             {<div className='hidden'>
